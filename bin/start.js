@@ -1,5 +1,6 @@
 const fs = require('fs');
 require('colors');
+// const helmet = require('helmet');
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -64,6 +65,18 @@ const app = express();
 const server = http.createServer(app);
 // const server = https.createServer(httpsOptions, app);
 
+// app.set('port', port);
+app.use(morgan('dev'));
+
+// app.use(helmet());
+// app.use(helmet.contentSecurityPolicy(config.app.csp));
+// app.use(helmet.xssFilter());
+// app.use(headers);
+
+app.use(cookieParser());
+app.use(compression());
+app.use(favicon(path.join(__dirname, '..', 'build', 'static', 'favicon.ico')));
+
 // ---------------------------------------------------------------------
 
 // const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
@@ -104,10 +117,8 @@ app.use('/dist/service-worker.js', (req, res, next) => {
 
 app.use('/dlls/:dllName.js', (req, res, next) => {
   console.log('>>>>>>>>>>>>>>>>> START > app.use > DLLs <<<<<<<<<<<<<<<<<<<<<<<');
-  /* eslint-disable */
-  fs.access(path.join(__dirname, '..', 'build', 'static', 'dlls', `${req.params.dllName}.js`), fs.constants.R_OK, err =>
-    err ? res.send(`################## NO DLL !!! (${req.originalUrl})') ##################`) : next()
-  );
+  /* eslint-disable max-len */
+  fs.access(path.join(__dirname, '..', 'build', 'static', 'dlls', `${req.params.dllName}.js`), fs.constants.R_OK, err => err ? res.send(`################## NO DLL !!! (${req.originalUrl})') ##################`) : next());
 });
 
 // app.use((req, res, next) => {
@@ -176,7 +187,7 @@ const port = normalizePort(__DEVELOPMENT__ ? portNum : portNum);
 // https://github.com/webpack-contrib/webpack-hot-middleware
 
 // logLevel: 'silent',
-// hot: true,
+// stats: { colors: true },
 // watchOptions: {
 //   aggregateTimeout: 300,
 //   ignored: /node_modules/,
@@ -187,22 +198,12 @@ const { publicPath } = clientConfigDev.output;
 
 const serverOptions = {
   lazy: false,
+  hot: true,
+  // stats: 'none',
   stats: { colors: true },
   serverSideRender: true,
   publicPath
 };
-
-// app.set('port', port);
-app.use(morgan('dev'));
-
-app.use(helmet());
-// app.use(helmet.contentSecurityPolicy(config.app.csp));
-// app.use(helmet.xssFilter());
-// app.use(headers);
-
-app.use(cookieParser());
-app.use(compression());
-app.use(favicon(path.join(__dirname, '..', 'build', 'static', 'favicon.ico')));
 
 // #########################################################################
 
@@ -243,9 +244,8 @@ server.on('listening', () => {
 
 // start socket and 'listen' for connections (requests)
 // method: 'app.listen(path, [callback])' <<< is identical to Node's 'http.Server.listen()'
-const done = () =>
-  !isBuilt &&
-  server.listen(port, config.host, err => {
+const done = () => !isBuilt
+  && server.listen(port, config.host, err => {
     isBuilt = true;
     console.log('>>>>>>>> BIN > START > STATS COMPILER HAS COMPLETED BUILD !! WAIT IS OVER !');
     if (err) {

@@ -11,6 +11,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+// const { GenerateSW, InjectManifest } = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const rootPath = path.resolve(__dirname, '..');
@@ -375,6 +376,16 @@ module.exports = {
       // skipWaiting: false,
       navigateFallback: '/dist/index.html'
     }),
+
+    // new GenerateSW({
+    //   exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+    //   skipWaiting: true,
+    //   clientsClaim: true,
+    //   runtimeCaching: [],
+    //   navigateFallback: '/dist/index.html',
+    //   navigateFallbackWhitelist: [/^(?!\/__).*/],
+    //   cacheId: ,
+    // }),
 
     // new BundleAnalyzerPlugin({
     //   analyzerMode: 'static',

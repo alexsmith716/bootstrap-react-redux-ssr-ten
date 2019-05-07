@@ -201,10 +201,11 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.1",
+    "webpack-cli": "^3.3.2",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-hot-middleware": "^2.24.4",
     "webpack-hot-server-middleware": "^0.6.0",
+    "workbox-webpack-plugin": "^4.3.1",
     "write-file-webpack-plugin": "^4.5.0"
   },
   "husky": {

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-// import CounterPreloadedState from '../../components/widgets/Counter/CounterPreloadedState';
-// import CounterMultireducer from '../../components/widgets/Counter/CounterMultireducer';
-import CounterPreloadedState2 from '../../components/widgets/Counter/CounterPreloadedState2';
-import CounterMultireducer2 from '../../components/widgets/Counter/CounterMultireducer2';
+import CounterPreloadedState from '../../components/widgets/Counter/CounterPreloadedState';
+import CounterMultireducer from '../../components/widgets/Counter/CounterMultireducer';
 // import Planets from '../../components/d3/Planets/Planets';
 import LineChartA from '../../components/d3/LineChart/LineChartA';
 // import LineChartAA from '../../components/d3/LineChart/LineChartAA';
@@ -228,14 +226,14 @@ class AboutTwo extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterPreloadedState2
+                  Most Basic CounterPreloadedState
                 </h5>
 
                 <div className="card-body-container">
 
                   <div className="card-body-content">
 
-                    <CounterPreloadedState2 />
+                    <CounterPreloadedState />
 
                   </div>
 
@@ -261,14 +259,14 @@ class AboutTwo extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterMultireducer2 'AboutTwoMultireducer1'
+                  Most Basic CounterMultireducer 'AboutTwoMultireducer1'
                 </h5>
 
                 <div className="card-body-container">
 
                   <div className="card-body-content">
 
-                    <CounterMultireducer2 as="AboutTwoMultireducer1" />
+                    <CounterMultireducer as="AboutTwoMultireducer1" />
 
                   </div>
 
@@ -294,14 +292,14 @@ class AboutTwo extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterMultireducer2 'AboutTwoMultireducer2'
+                  Most Basic CounterMultireducer 'AboutTwoMultireducer2'
                 </h5>
 
                 <div className="card-body-container">
 
                   <div className="card-body-content">
 
-                    <CounterMultireducer2 as="AboutTwoMultireducer2" />
+                    <CounterMultireducer as="AboutTwoMultireducer2" />
 
                   </div>
 
@@ -327,14 +325,14 @@ class AboutTwo extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterMultireducer2 'AboutTwoMultireducer3'
+                  Most Basic CounterMultireducer 'AboutTwoMultireducer3'
                 </h5>
 
                 <div className="card-body-container">
 
                   <div className="card-body-content">
 
-                    <CounterMultireducer2 as="AboutTwoMultireducer3" />
+                    <CounterMultireducer as="AboutTwoMultireducer3" />
 
                   </div>
 

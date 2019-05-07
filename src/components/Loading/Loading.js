@@ -6,17 +6,13 @@ import NProgress from 'nprogress';
 
 class Loading extends Component {
 
-  constructor(props) {
-    super(props);
-
-    // this.state = {};
-  }
-
   static propTypes = {
-    // text: PropTypes.string.isRequired
+    text: PropTypes.string,
   };
 
-  // static defaultProps = {};
+  static defaultProps = {
+    text: 'Fetching Requested Data ...'
+  };
 
   componentDidMount() {
     console.log('>>>>>>>>>>>>>>>> Loading > componentDidMount() <<<<<<<<<<<<<<');
@@ -26,11 +22,6 @@ class Loading extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log('>>>>>>>>>>>>>>>> Loading > componentDidUpdate() <<<<<<<<<<<<<<');
-    if (this.props.text === '') {
-      console.log('>>>>>>>>>>>>>>>> Loading > componentDidUpdate() > this.props.text 1');
-    } else {
-      console.log('>>>>>>>>>>>>>>>> Loading > componentDidUpdate() > this.props.text 2');
-    }
   }
 
   componentWillUnmount() {
@@ -40,11 +31,11 @@ class Loading extends Component {
 
   render() {
 
-    const t = this.props.text;
+    const { text } = this.props;
 
     return (
 
-      <div className="alert alert-warning text-center" role="alert">{ t }</div>
+      <div className="alert alert-warning text-center" role="alert">{ text }</div>
 
     );
   }

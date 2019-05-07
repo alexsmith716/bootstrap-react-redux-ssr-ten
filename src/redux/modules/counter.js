@@ -1,3 +1,7 @@
+// isolate concerns within a Redux application (modules)
+// https://github.com/erikras/ducks-modular-redux
+
+// Actions
 const INCREMENT_COUNTER_PRELOADED_STATE = 'redux-example/counter/INCREMENT_COUNTER_PRELOADED_STATE';
 const DECREMENT_COUNTER_PRELOADED_STATE = 'redux-example/counter/DECREMENT_COUNTER_PRELOADED_STATE';
 
@@ -11,6 +15,7 @@ import initialState from '../initial-state';
 //   countMultireducer: 0
 // },
 
+// Reducer
 export default function reducer(state = initialState.counter, action = {}) {
 
   // const { countPreloadedState } = state;
@@ -49,6 +54,8 @@ export default function reducer(state = initialState.counter, action = {}) {
   }
 }
 
+
+// Action Creators
 export function incrementPreloadedState() {
   return {
     type: INCREMENT_COUNTER_PRELOADED_STATE
@@ -72,3 +79,9 @@ export function decrementMultireducer() {
     type: DECREMENT_COUNTER_MULTIREDUCER
   };
 }
+
+
+// side effects, only as applicable (e.g. thunks, epics, etc)
+// export function getWidget () {
+//   return dispatch => get('/widget').then(widget => dispatch(updateWidget(widget)))
+// }

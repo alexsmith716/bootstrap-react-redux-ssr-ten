@@ -1,9 +1,13 @@
 import { connectRouter } from 'connected-react-router';
 import multireducer from 'multireducer';
 
+// isolate concerns within a Redux application (modules)
+// https://github.com/erikras/ducks-modular-redux
+
 import device from './modules/device';
 import counter from './modules/counter';
 import temperatureCalculator from './modules/temperatureCalculator';
+import filterableTable from './modules/filterableTable';
 // import auth from './modules/auth';
 // import notifs from './modules/notifs';
 // import info from './modules/info';
@@ -17,12 +21,16 @@ export default function rootReducer(history) {
     router: connectRouter(history),
     counter,
     device,
-    counterCollection2: multireducer({
+    counterCollection: multireducer({
       // preloaded: counter,
       AboutOneMultireducer1: counter,
       AboutTwoMultireducer1: counter,
       AboutTwoMultireducer2: counter,
       AboutTwoMultireducer3: counter,
+    }),
+    filterableTableCollection: multireducer({
+      AboutOneMultireducer1: filterableTable,
+      AboutOneMultireducer2: filterableTable,
     }),
     temperatureCalculatorCollection: multireducer({
       AboutOne1: temperatureCalculator,

@@ -176,7 +176,7 @@ class AboutOne extends Component {
 
                   <div className="card-body-content">
 
-                    <FilterableTable optionsArray={dropDownOptions} description='Filterable Product Table 1' />
+                    <FilterableTable as="AboutOneMultireducerFilterableTable1" optionsArray={dropDownOptions} description='Filterable Product Table 1' />
 
                   </div>
 
@@ -209,7 +209,7 @@ class AboutOne extends Component {
 
                   <div className="card-body-content">
 
-                    <FilterableTable optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
+                    <FilterableTable as="AboutOneMultireducerFilterableTable2" optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
 
                   </div>
 

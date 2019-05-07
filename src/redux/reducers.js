@@ -29,8 +29,8 @@ export default function rootReducer(history) {
       AboutTwoMultireducer3: counter,
     }),
     filterableTableCollection: multireducer({
-      AboutOneMultireducer1: filterableTable,
-      AboutOneMultireducer2: filterableTable,
+      AboutOneMultireducerFilterableTable1: filterableTable,
+      AboutOneMultireducerFilterableTable2: filterableTable,
     }),
     temperatureCalculatorCollection: multireducer({
       AboutOne1: temperatureCalculator,

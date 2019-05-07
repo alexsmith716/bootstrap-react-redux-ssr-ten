@@ -8,7 +8,7 @@ import SearchBar from './components/SearchBar';
 import Tables from './components/Tables';
 import DropdownSelect from '../DropdownSelect/DropdownSelect';
 // actionCreators
-import * as filterableTableActions from '../../../redux/modules/filterableTable';
+import * as filterableTableActions from '../../redux/modules/filterableTable';
 
 // <FilterableTable optionsArray={dropDownOptions} description='Filterable Product Table 1' />
 // <FilterableTable optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
@@ -20,8 +20,8 @@ import * as filterableTableActions from '../../../redux/modules/filterableTable'
     error: state.filterableTableCollection[as].error,
     isLoading: state.filterableTableCollection[as].isLoading,
     fetchedData: state.filterableTableCollection[as].fetchedData,
-    optionsArray: state.filterableTableCollection[as].optionsArray,
-    description: state.filterableTableCollection[as].description,
+    // optionsArray: state.filterableTableCollection[as].optionsArray,
+    // description: state.filterableTableCollection[as].description,
     filterText: state.filterableTableCollection[as].filterText,
     inStockOnly: state.filterableTableCollection[as].inStockOnly,
   }),
@@ -44,105 +44,81 @@ class FilterableTable extends Component {
     // handleDropdownChange: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    // info: null
-  };
+  // static defaultProps = {};
 
-  handleFilterTextChange(filterText) {
-    this.setState({ filterText: filterText });
-  };
+  // handleFilterTextChange(filterText) {
+  //   this.setState({ filterText: filterText });
+  // };
 
-  handleInStockChange(inStockOnly) {
-    this.setState({ inStockOnly: inStockOnly })
-  };
+  // handleInStockChange(inStockOnly) {
+  //   this.setState({ inStockOnly: inStockOnly })
+  // };
 
-  handleDropdownChange = (e) => {
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > handleDropdownChange > e.target.value: ', e.target.value);
-    let { fetchedData, dropDownOptionSelected } = this.state;
+  // handleDropdownChange = (e) => {
+  //   let { fetchedData, dropDownOptionSelected } = this.state;
 
-    if (e.target.value !== '') {
-      this.setState({ error: false, isLoading: true, fetchedData: null, dropDownOptionSelected: e.target.value });
-    }
-  };
+  //   if (e.target.value !== '') {
+  //     this.setState({ error: false, isLoading: true, fetchedData: null, dropDownOptionSelected: e.target.value });
+  //   }
+  // };
 
   // ================================================================================================
 
-  setTimeoutCallback = (d) => this.setState({ error: null, isLoading: null, fetchedData: d });
+  // setTimeoutCallback = (d) => this.setState({ error: null, isLoading: null, fetchedData: d });
 
-  requestDataPromise(r) {
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > dropDownOptionSelected!!: ', r);
-    this._asyncRequest = axios.get(r)
-      .then(response => {
-        console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > JSON >>>>>> response: ', response);
-        console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > JSON > response.data: ', response.data);
-        this._asyncRequest = null;
-        // this.setState({ fetchedData: response.data, isLoading: false });
-        setTimeout( () => this.setTimeoutCallback(response.data), 2000 );
-      })
-      .catch(error => {
-        if (error.fetchedData) {
-          // The request was made and the server responded with a status code that falls out of the range of 2xx
-          console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.data: ', error.response.data);
-          console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.status: ', error.response.status);
-          console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.headers: ', error.response.headers);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.message: ', error.message);
-        }
-        console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.config: ', error.config);
-        this.setState({ error: true, isLoading: false, fetchedData: null });
-      });
-  }
+  // requestDataPromise(r) {
+  //   this._asyncRequest = axios.get(r)
+  //     .then(response => {
+  //       console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > JSON >>>>>> response: ', response);
+  //       console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > JSON > response.data: ', response.data);
+  //       this._asyncRequest = null;
+  //       // this.setState({ fetchedData: response.data, isLoading: false });
+  //       setTimeout( () => this.setTimeoutCallback(response.data), 2000 );
+  //     })
+  //     .catch(error => {
+  //       if (error.fetchedData) {
+  //         // The request was made and the server responded with a status code that falls out of the range of 2xx
+  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.data: ', error.response.data);
+  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.status: ', error.response.status);
+  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.headers: ', error.response.headers);
+  //       } else {
+  //         // Something happened in setting up the request that triggered an Error
+  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.message: ', error.message);
+  //       }
+  //       console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.config: ', error.config);
+  //       this.setState({ error: true, isLoading: false, fetchedData: null });
+  //     });
+  // }
 
   // ================================================================================================
 
-  // called after the first render
   componentDidMount() {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() <<<<<<<<<<<<<<: ', this.props.description);
-    // this.requestDataPromise(this.props.requestURL);
-    // this.requestDataAsyncAwait(this.props.requestURL);
   }
 
   componentDidUpdate(prevProps, prevState) {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() <<<<<<<<<<<<<<: ', this.props.description);
-    const { error, isLoading, fetchedData, dropDownOptionSelected } = this.state;
-    if (fetchedData === null && !error && isLoading) {
-      this.requestDataPromise(`${dropDownOptionSelected}`);
-    }
+    // const { error, isLoading, fetchedData, dropDownOptionSelected } = this.state;
+    // if (fetchedData === null && !error && isLoading) {
+    //   this.requestDataPromise(`${dropDownOptionSelected}`);
+    // }
   }
 
   componentWillUnmount() {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentWillUnmount() <<<<<<<<<<<<<<');
   }
 
-  // invoked before rendering when new props or state are being received
-  // --------------------------------------------------------------------------------
   shouldComponentUpdate(nextProps, nextState) {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > shouldComponentUpdate() > nextProps: ', nextProps);
     return nextProps;
   };
 
-  // getDerivedStateFromProps: 
-  //   * lifecycle is invoked after a component is instantiated as well as before it is re-rendered
-  //   * It can return an object to update state, or null to indicate that the new props do not require any state updates
-  static getDerivedStateFromProps(props, state) {
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > getDerivedStateFromProps() <<<<<<<<<<<<<<<<<<<<<<');
-    // if (props.requestURL !== state.prevId) {
-    //   return {
-    //     fetchedData: null,
-    //     prevId: props.requestURL,
-    //   };
-    // }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   console.log('>>>>>>>>>>>>>>>> FilterableTable > getDerivedStateFromProps() <<<<<<<<<<<<<<<<<<<<<<');
+  //   return null;
+  // }
 
   componentDidCatch(error, info) {
-    // Example "componentStack":
-    //   in ComponentThatThrows (created by App)
-    //   in ErrorBoundary (created by App)
-    //   in div (created by App)
-    //   in App
-    // logComponentStackToMyService(info.componentStack);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidCatch() > info.componentStack: ', info.componentStack);
   }
 
@@ -157,7 +133,6 @@ class FilterableTable extends Component {
     const loadingText = 'Fetching Requested Data ...';
     const errorText = 'Error Fetching Requested Data !';
     let items = null;
-    // <div key={index}>{`id: '${item.id}' type: '${item.type}'`}</div>
 
     let arrayLike = fetchedData && fetchedData.length > 0
       ? arrayLike = true

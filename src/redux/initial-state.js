@@ -1,37 +1,28 @@
-import { List } from 'immutable';
-
-// defines state shape
+// import { List } from 'immutable';
 
 export default {
 
   device: {
-    isMobile: null
+    isMobile: null,
   },
 
   counter: {
     countPreloadedState: null,
-    countMultireducer: 0
+    countMultireducer: 0,
   },
 
-  // counterPreloadedState: {
-  //   count: null
-  // },
-
-  // counterMultireducer: {
-  //   count: 0
-  // },
+  filterableTable: {
+    loaded: false,
+    dropDownOptionSelected: '',
+    error: false,
+    isLoading: false,
+    fetchedData: null,
+    didInvalidate: false,
+  },
 
   temperatureCalculator: {
     temperature: '',
-    scale: 'c'
+    scale: 'c',
   },
 
 };
-
-// Counter:
-
-// CatsForm
-// Clock
-// TemperatureCalculator
-// IncorporationForm
-// RandomBootstrapAlert

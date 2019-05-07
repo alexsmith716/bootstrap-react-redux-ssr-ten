@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'multireducer';
 import { connect } from 'react-redux';
+// actionCreators
 import * as temperatureCalculatorActions from '../../../redux/modules/temperatureCalculator';
 
 import BoilingVerdict from './BoilingVerdict';
 import TemperatureInput from './TemperatureInput';
 import { toCelsius, toFahrenheit, tryConvert } from './stateHelpers';
 
+// UI bindings
 @connect(
   (state, { as }) => ({ 
     temperature: state.temperatureCalculatorCollection[as].temperature,
     scale: state.temperatureCalculatorCollection[as].scale,
-    // counterX: state.counterCollection[as].counter,
   }),
   (dispatch, { as }) => bindActionCreators(temperatureCalculatorActions, dispatch, as)
 )
@@ -20,7 +21,6 @@ import { toCelsius, toFahrenheit, tryConvert } from './stateHelpers';
 class TemperatureCalculator extends Component {
 
   static propTypes = {
-    // counterX: PropTypes.number,
     temperature: PropTypes.string.isRequired,
     scale: PropTypes.string.isRequired,
     celsiusChange: PropTypes.func.isRequired,
@@ -43,18 +43,6 @@ class TemperatureCalculator extends Component {
   //   console.log('>>>>>>>>>>>>>>>> TemperatureCalculator > getDerivedStateFromProps <<<<<<<<<<<<<<<<<<<<<<');
   // };
 
-  // yes, single parameter (skip parenthesis) more than one (parenthesis required)
-  // one returned expression (skip curly braces) more than one (curly braces required with return keyword)
-  // handleCelsiusChange = (temperature) => {
-  //   this.setState( { scale: 'c', temperature } );
-  // }
-
-  // handleFahrenheitChange = (temperature) => {
-  //   this.setState( { scale: 'f', temperature } );
-  // }
-
-  // examine 'this.props' and 'this.state' and return a React element
-  // called each time an update happens (state update, network update, HMR update)
   render() {
 
     // const scale = this.state.scale;
@@ -78,7 +66,6 @@ class TemperatureCalculator extends Component {
     // 'onTemperatureChange' of the 'Celsius' 'TemperatureInput' is this component's 'handleCelsiusChange' method
     // 'onTemperatureChange' of the 'Fahrenheit' 'TemperatureInput' is this component's 'handleFahrenheitChange' method
 
-    // console.log('>>>>>>>>>>>>>>>> TemperatureCalculator > RENDER !!!!!! > this.props.counterX: ', this.props.counterX);
     console.log('>>>>>>>>>>>>>>>> TemperatureCalculator > RENDER !!!!!! > temperature: ', temperature , ' > scale: ', scale);
 
     return (

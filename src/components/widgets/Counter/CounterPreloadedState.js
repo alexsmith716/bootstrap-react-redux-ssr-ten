@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+// actionCreators
 import { incrementPreloadedState, decrementPreloadedState  } from '../../../redux/modules/counter';
 
+// UI bindings
 @connect(
   (state) => ({ count: state.counter.countPreloadedState }),
   (dispatch) => bindActionCreators({ incrementPreloadedState, decrementPreloadedState }, dispatch)
 )
 
-class CounterPreloadedState2 extends Component {
+class CounterPreloadedState extends Component {
 
   static propTypes = {
     count: PropTypes.number.isRequired,
@@ -69,4 +71,4 @@ class CounterPreloadedState2 extends Component {
   }
 };
 
-export default CounterPreloadedState2;
+export default CounterPreloadedState;

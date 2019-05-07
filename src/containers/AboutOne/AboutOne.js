@@ -10,9 +10,8 @@ import Clock from '../../components/widgets/Clock/Clock';
 import RandomBootstrapAlert from '../../components/widgets/RandomBootstrapAlert/RandomBootstrapAlert';
 import FilterableTable from '../../components/FilterableTable/FilterableTable';
 import TemperatureCalculator from '../../components/widgets/LiftingStateUp/TemperatureCalculator';
-// import CounterPreloadedState from '../../components/widgets/Counter/CounterPreloadedState';
-import CounterPreloadedState2 from '../../components/widgets/Counter/CounterPreloadedState2';
-import CounterMultireducer2 from '../../components/widgets/Counter/CounterMultireducer2';
+import CounterPreloadedState from '../../components/widgets/Counter/CounterPreloadedState';
+import CounterMultireducer from '../../components/widgets/Counter/CounterMultireducer';
 
 // --------------------------------------------------------------------------
 
@@ -104,14 +103,14 @@ class AboutOne extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterPreloadedState2
+                  Most Basic CounterPreloadedState
                 </h5>
 
                 <div className="card-body-container">
 
                   <div className="card-body-content">
 
-                    <CounterPreloadedState2 />
+                    <CounterPreloadedState />
 
                   </div>
 
@@ -137,14 +136,14 @@ class AboutOne extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterMultireducer2 'AboutOneMultireducer1'
+                  Most Basic CounterMultireducer 'AboutOneMultireducer1'
                 </h5>
 
                 <div className="card-body-container">
 
                   <div className="card-body-content">
 
-                    <CounterMultireducer2 as="AboutOneMultireducer1" />
+                    <CounterMultireducer as="AboutOneMultireducer1" />
 
                   </div>
 

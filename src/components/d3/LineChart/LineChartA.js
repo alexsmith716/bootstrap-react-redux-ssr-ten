@@ -159,9 +159,10 @@ class LineChartA extends Component {
 
   // invoked right before calling the render method, both on the initial mount and on subsequent updates
   // --------------------------------------------------------------------------------
-  // static getDerivedStateFromProps(props, state) {
-  //   console.log('>>>>>>>>>>>>>>>> LineChart > getDerivedStateFromProps() <<<<<<<<<<<<<<<<<<<<<<');
-  // };
+  static getDerivedStateFromProps(props, state) {
+    console.log('>>>>>>>>>>>>>>>> LineChart > getDerivedStateFromProps() <<<<<<<<<<<<<<<<<<<<<<');
+    return null;
+  };
 
   componentDidCatch(error, info) {
     // Example "componentStack":

@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'multireducer';
 import { connect } from 'react-redux';
+// actionCreators
 import { incrementMultireducer, decrementMultireducer  } from '../../../redux/modules/counter';
 
+// 'dispatch()' function accessed from helper 'connect()'
+// to initiate a ('action creator') dispatch, pass the result to the 'dispatch()' function
+// 'bindActionCreators()': automatically bind many action creators to 'dispatch()' function
+
+// UI bindings
 @connect(
-  (state, { as }) => ({  count: state.counterCollection2[as].countMultireducer }),
+  (state, { as }) => ({  count: state.counterCollection[as].countMultireducer }),
   (dispatch, { as }) => bindActionCreators({ incrementMultireducer, decrementMultireducer  }, dispatch, as)
 )
 
-class CounterMultireducer2 extends Component {
+class CounterMultireducer extends Component {
 
   static propTypes = {
     count: PropTypes.number.isRequired,
@@ -68,4 +74,4 @@ class CounterMultireducer2 extends Component {
   }
 };
 
-export default CounterMultireducer2;
+export default CounterMultireducer;

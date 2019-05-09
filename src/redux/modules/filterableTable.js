@@ -1,14 +1,25 @@
 // isolate concerns within a Redux application (modules)
 // https://github.com/erikras/ducks-modular-redux
 
+// middleware
+// allow some actions to pass a "promise generator"
+// https://github.com/reduxjs/redux/issues/99
+
 // Actions
+// -------------------
 const LOAD = 'redux-example/filterableTable/LOAD';
 const LOAD_SUCCESS = 'redux-example/filterableTable/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/filterableTable/LOAD_FAIL';
 
+const SELECTED_OPTION = 'redux-example/filterableTable/SELECTED_OPTION';
+
 const HANDLE_FILTER_TEXT_CHANGE = 'redux-example/filterableTable/HANDLE_FILTER_TEXT_CHANGE';
 const HANDLE_IN_STOCK_CHANGE = 'redux-example/filterableTable/HANDLE_IN_STOCK_CHANGE';
 const HANDLE_DROPDOWN_CHANGE = 'redux-example/filterableTable/HANDLE_DROPDOWN_CHANGE';
+
+import axios from 'axios';
+// import axiosClient from '../../utils/axiosClient';
+// import axiosClientInstance from '../../utils/axiosClientInstance';
 
 import initialState from '../initial-state';
 
@@ -22,30 +33,42 @@ import initialState from '../initial-state';
 // },
 
 // Reducer
+// -------------------
 export default function reducer(state = initialState.filterableTable, action = {}) {
 
   switch (action.type) {
 
-    case LOAD:
+    case SELECTED_OPTION:
       return {
         ...state,
-        isLoading: true
+        error: false,
+        isLoading: true,
+        externalData: null,
+        dropDownOptionSelected: action.option,
+      };
+
+    case LOAD:
+      console.log('>>>>>>>>>>>>>>>> filterableTable > SWITCH > action.type > LOAD!!!: ', action.type);
+      return {
+        ...state,
+        isLoading: true,
       };
 
     case LOAD_SUCCESS:
+      console.log('>>>>>>>>>>>>>>>> filterableTable > SWITCH > action.type > LOAD_SUCCESS!!!: ', action.type);
       return {
         ...state,
-        isLoading: false,
-        loaded: true,
-        fetchedData: action.result
+        error: null,
+        isLoading: null,
+        externalData: action.result,
       };
 
     case LOAD_FAIL:
+      console.log('>>>>>>>>>>>>>>>> filterableTable > SWITCH > action.type > LOAD_FAIL!!!: ', action.type);
       return {
         ...state,
+        error: true,
         isLoading: false,
-        loaded: false,
-        error: action.error
       };
 
     default:
@@ -54,38 +77,50 @@ export default function reducer(state = initialState.filterableTable, action = {
 }
 
 // Action Creators
-// export function isLoaded(globalState) {
-//   return globalState.filterableTable && globalState.filterableTable.loaded;
-// }
-
-export function load() {
+// -------------------
+export function selectedOption(value) {
+  console.log('>>>>>>>>>>>>>>>> filterableTable > selectedOption(value) > value.selected: ', value.selected);
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: ({ client }) => client.get('/load-info')
+    type: SELECTED_OPTION,
+    option: value.selected
   };
-}
+};
 
-export function handleFilterTextChange() {
+export function loadAction() {
+  console.log('>>>>>>>>>>>>>>>> filterableTable > loadAction() <<<<<<<<<<<<<<<<<');
   return {
-    type: HANDLE_FILTER_TEXT_CHANGE
-  };
-}
+    type: LOAD
+  }
+};
 
-export function handleInStockChange() {
+export function loadSuccess(externalData) {
+  console.log('>>>>>>>>>>>>>>>> filterableTable > loadSuccess() > externalData:', externalData.data);
   return {
-    type: HANDLE_IN_STOCK_CHANGE
-  };
-}
+    type: LOAD_SUCCESS,
+    result: externalData.data
+  }
+};
 
-export function handleDropdownChange() {
+export function loadFailure(error) {
+  console.log('>>>>>>>>>>>>>>>> filterableTable > loadFailure() > error:', error);
   return {
-    type: HANDLE_DROPDOWN_CHANGE
-  };
+    type: LOAD_FAIL,
+  }
+};
+
+export function load(value) {
+  return dispatch => {
+    dispatch(loadAction());
+
+    const data = axios.get(value.request)
+      .then(response => {
+        console.log('>>>>>>>>>>>>>>>> axiosClient.then(response) <<<<<<<<<<<<<<<<<<<<<<')
+        dispatch(loadSuccess(response))
+      })
+      .catch(error => {
+        console.log('>>>>>>>>>>>>>>>> axiosClient.catch(error) <<<<<<<<<<<<<<<<<<<<<<')
+        dispatch(loadFailure(error))
+      })
+    return data;
+  }
 }
-
-
-// side effects, only as applicable (e.g. thunks, epics, etc)
-
-// export function getWidget () {
-//   return dispatch => get('/widget').then(widget => dispatch(updateWidget(widget)))
-// }

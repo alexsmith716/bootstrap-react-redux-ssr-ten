@@ -147,13 +147,16 @@ export default ({ clientStats }) => async (req, res) => {
     console.log('>>>>>>>>>>>>>>>> SERVER > await asyncMatchRoutes > match: ', match);
     console.log('>>>>>>>>>>>>>>>> SERVER > await asyncMatchRoutes > params: ', params);
 
-    await trigger('fetch', components, {
+    // prefetch all data for set of routes on server before render
+    const triggerLocals = {
       store,
       match,
       params,
       history,
       location: history.location
-    });
+    };
+
+    await trigger('fetch', components, triggerLocals);
 
     const context = {};
 

@@ -9,11 +9,13 @@ import Tables from './components/Tables';
 import DropdownSelect from '../DropdownSelect/DropdownSelect';
 // actionCreators
 import * as filterableTableActions from '../../redux/modules/filterableTable';
+// import { selectedOption } from '../../redux/modules/filterableTable';
 
 // <FilterableTable optionsArray={dropDownOptions} description='Filterable Product Table 1' />
 // <FilterableTable optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
 
 // UI bindings
+// @connect({mapStateToProps, mapDispatchToProps})
 @connect(
   (state, { as }) => ({ 
     dropDownOptionSelected: state.filterableTableCollection[as].dropDownOptionSelected,
@@ -25,23 +27,23 @@ import * as filterableTableActions from '../../redux/modules/filterableTable';
     filterText: state.filterableTableCollection[as].filterText,
     inStockOnly: state.filterableTableCollection[as].inStockOnly,
   }),
-  (dispatch, { as }) => bindActionCreators(filterableTableActions, dispatch, as)
+  // (dispatch, { as }) => bindActionCreators(filterableTableActions, dispatch, as)
+  (dispatch, { as }) => bindActionCreators( { ...filterableTableActions }, dispatch, as)
 )
 
 class FilterableTable extends Component {
 
   static propTypes = {
-    // dropDownOptionSelected: PropTypes.string,
-    // error: PropTypes.string,
-    // isLoading: PropTypes.string,
-    // fetchedData: PropTypes.string,
+    dropDownOptionSelected: PropTypes.string,
+    error: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    fetchedData: PropTypes.string,
     // optionsArray: PropTypes.array.isRequired,
     // description: PropTypes.string,
     // filterText: PropTypes.string,
     // inStockOnly: PropTypes.string,
-    // handleFilterTextChange: PropTypes.func.isRequired,
-    // handleInStockChange: PropTypes.func.isRequired,
-    // handleDropdownChange: PropTypes.func.isRequired,
+    selectedOption: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequired,
   };
 
   // static defaultProps = {};
@@ -54,13 +56,13 @@ class FilterableTable extends Component {
   //   this.setState({ inStockOnly: inStockOnly })
   // };
 
-  // handleDropdownChange = (e) => {
-  //   let { fetchedData, dropDownOptionSelected } = this.state;
-
-  //   if (e.target.value !== '') {
-  //     this.setState({ error: false, isLoading: true, fetchedData: null, dropDownOptionSelected: e.target.value });
-  //   }
-  // };
+  handleDropdownChange = (e) => {
+    const { selectedOption } = this.props;
+    // e.preventDefault();
+    selectedOption({
+      selected: e.target.value
+    });
+  };
 
   // ================================================================================================
 
@@ -93,15 +95,19 @@ class FilterableTable extends Component {
   // ================================================================================================
 
   componentDidMount() {
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() <<<<<<<<<<<<<<: ', this.props.description);
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() > props.description: ', this.props.description);
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() > this.props.dropDownOptionSelected: ', this.props.dropDownOptionSelected);
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { error, isLoading, fetchedData, dropDownOptionSelected, load } = this.props;
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() <<<<<<<<<<<<<<: ', this.props.description);
-    // const { error, isLoading, fetchedData, dropDownOptionSelected } = this.state;
-    // if (fetchedData === null && !error && isLoading) {
-    //   this.requestDataPromise(`${dropDownOptionSelected}`);
-    // }
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > this.props.dropDownOptionSelected: ', dropDownOptionSelected);
+    if (fetchedData === null && !error && isLoading) {
+      load({
+        request: dropDownOptionSelected
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -126,9 +132,13 @@ class FilterableTable extends Component {
 
     const styles = require('./scss/FilterableTable.scss');
 
-    const { error, isLoading, dropDownOptionSelected, fetchedData } = this.props;
-    const { optionsArray, description  } = this.props;
-    const { handleFilterTextChange, handleInStockChange, handleDropdownChange } = this.props;
+    const error = this.props.error;
+    const isLoading = this.props.isLoading;
+    const dropDownOptionSelected = this.props.dropDownOptionSelected;
+    const fetchedData = this.props.fetchedData;
+
+    const optionsArray = this.props.optionsArray;
+    const description = this.props.description;
 
     const loadingText = 'Fetching Requested Data ...';
     const errorText = 'Error Fetching Requested Data !';
@@ -220,7 +230,7 @@ class FilterableTable extends Component {
                 title={description}
                 optionsArray={optionsArray}
                 dropDownOptionSelected={dropDownOptionSelected}
-                onChange={handleDropdownChange}
+                onChange={this.handleDropdownChange}
               />
 
             </div>

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
-// import { withStore } from '../../../hoc';
-
 import IncorporationForm from '../../components/widgets/Shareholders/IncorporationForm';
 import CatsForm from '../../components/widgets/CatsForm/CatsForm';
 import Clock from '../../components/widgets/Clock/Clock';
@@ -12,6 +10,8 @@ import FilterableTable from '../../components/FilterableTable/FilterableTable';
 import TemperatureCalculator from '../../components/widgets/LiftingStateUp/TemperatureCalculator';
 import CounterPreloadedState from '../../components/widgets/Counter/CounterPreloadedState';
 import CounterMultireducer from '../../components/widgets/Counter/CounterMultireducer';
+
+// import { withStore } from '../../../hoc';
 
 // --------------------------------------------------------------------------
 
@@ -70,13 +70,6 @@ class AboutOne extends Component {
       '/json-data/product-categories-small2.json',
       '/json-data/product-categories2.json',
     ];
-
-    // const dropDownOptionSelected = this.state.dropDownOptionSelected;
-    // let filterableTable;
-
-    // if (dropDownOptionSelected !== '') {
-    //   filterableTable = <FilterableTable requestURL={ dropDownOptionSelected } />;
-    // }
 
     return (
 
@@ -176,7 +169,7 @@ class AboutOne extends Component {
 
                   <div className="card-body-content">
 
-                    <FilterableTable as="AboutOneMultireducerFilterableTable1" optionsArray={dropDownOptions} description='Filterable Product Table 1' />
+                    <FilterableTable as='AboutOneMultireducerFilterableTable1' optionsArray={dropDownOptions} description='Filterable Product Table 1' />
 
                   </div>
 
@@ -209,7 +202,7 @@ class AboutOne extends Component {
 
                   <div className="card-body-content">
 
-                    <FilterableTable as="AboutOneMultireducerFilterableTable2" optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
+                    <FilterableTable as='AboutOneMultireducerFilterableTable2' optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
 
                   </div>
 

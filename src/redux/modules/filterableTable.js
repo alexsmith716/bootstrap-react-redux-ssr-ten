@@ -112,7 +112,7 @@ export function load(value) {
   return dispatch => {
     dispatch(loadAction());
 
-    const data = axios.get(value.request)
+    return axios.get(value.request)
       .then(response => {
         console.log('>>>>>>>>>>>>>>>> axiosClient.then(response) <<<<<<<<<<<<<<<<<<<<<<')
         dispatch(loadSuccess(response))
@@ -121,6 +121,5 @@ export function load(value) {
         console.log('>>>>>>>>>>>>>>>> axiosClient.catch(error) <<<<<<<<<<<<<<<<<<<<<<')
         dispatch(loadFailure(error))
       })
-    return data;
   }
 }

@@ -41,26 +41,36 @@ class CounterPreloadedState extends Component {
     // const styles = require('./scss/CounterPreloadedState.scss');
     const { count, incrementPreloadedState, decrementPreloadedState } = this.props;
 
-    console.log('>>>>>>>>>>>>>>>> CounterPreloadedState > render() > this.props.count: ', count);
+    console.log('>>>>>>>>>>>>>>>> CounterPreloadedState > render() > this.props.count: ', this.props.count);
 
     return (
 
-      <div className="row justify-content-md-center">
+      <div className="row justify-content-center">
         <div className="col-md-auto">
 
-          <div className="container-flex bg-color-ivory container-padding-border-radius-2">
-            <div className="width-400">
+          <div className="d-flex bg-color-ivory container-padding-border-radius-2">
 
-              <p>Counter Preloaded State Clicked: {count} times</p>
+            <div className="width-400 text-center">
 
-                <div className="form-row">
-                  <div className="form-group col-md-6">
-                    <button onClick={decrementPreloadedState} className="btn btn-primary">decrement counter</button>
-                  </div>
-                  <div className="form-group col-md-6">
-                    <button onClick={incrementPreloadedState} className="btn btn-primary">increment counter</button>
-                  </div>
+              <div className="row">
+
+                <div className="col mb-2">
+                  <p>Counter Preloaded State Clicked: {count} times</p>
                 </div>
+
+              </div>
+
+              <div className="row">
+
+                <div className="col-lg-6 col-md-6 mb-lg-0 mb-md-0 mb-sm-2 mb-2">
+                  <button onClick={decrementPreloadedState} className="btn btn-primary">decrement counter</button>
+                </div>
+
+                <div className="col-lg-6 col-md-6 col-sm-12">
+                  <button onClick={incrementPreloadedState} className="btn btn-primary">increment counter</button>
+                </div>
+
+              </div>
 
             </div>
           </div>

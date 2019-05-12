@@ -115,11 +115,13 @@ export function load(value) {
     return axios.get(value.request)
       .then(response => {
         console.log('>>>>>>>>>>>>>>>> axiosClient.then(response) <<<<<<<<<<<<<<<<<<<<<<')
-        dispatch(loadSuccess(response))
+        // dispatch(loadSuccess(response))
+        setTimeout( () => dispatch(loadSuccess(response)), 4000 )
       })
       .catch(error => {
         console.log('>>>>>>>>>>>>>>>> axiosClient.catch(error) <<<<<<<<<<<<<<<<<<<<<<')
-        dispatch(loadFailure(error))
+        // dispatch(loadFailure(error))
+        setTimeout( () => dispatch(loadFailure(error)), 4000 )
       })
   }
 }

@@ -54,15 +54,15 @@ class CounterPreloadedState extends Component {
 
               <div className="row">
 
-                <div className="col mb-2">
-                  <p>Counter Preloaded State Clicked: {count} times</p>
+                <div className="col mb-3">
+                  Counter Preloaded State Clicked: {count} times
                 </div>
 
               </div>
 
               <div className="row">
 
-                <div className="col-lg-6 col-md-6 mb-lg-0 mb-md-0 mb-sm-2 mb-2">
+                <div className="col-lg-6 col-md-6 col-sm-12 mb-lg-0 mb-md-0 mb-sm-2 mb-2">
                   <button onClick={decrementPreloadedState} className="btn btn-primary">decrement counter</button>
                 </div>
 

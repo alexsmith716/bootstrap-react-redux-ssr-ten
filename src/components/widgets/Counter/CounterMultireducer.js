@@ -55,7 +55,7 @@ class CounterMultireducer extends Component {
 
               <div className="row">
 
-                <div className="col mb-2">
+                <div className="col mb-3">
                   Counter Multireducer Clicked: {count} times
                 </div>
 
@@ -63,7 +63,7 @@ class CounterMultireducer extends Component {
 
               <div className="row">
 
-                <div className="col-lg-6 col-md-6 mb-lg-0 mb-md-0 mb-sm-2 mb-2">
+                <div className="col-lg-6 col-md-6 col-sm-12 mb-lg-0 mb-md-0 mb-sm-2 mb-2">
                   <button onClick={decrementMultireducer} className="btn btn-primary">decrement counter</button>
                 </div>
 

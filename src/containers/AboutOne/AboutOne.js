@@ -52,6 +52,7 @@ class AboutOne extends Component {
       'https://api.github.com/emojis',
       'https://api.github.com/events',
       'https://api.github.com/gists/public',
+      'https://api.github.com/gists/656565656565',
       '/json-data/product-categories-small.json',
       '/json-data/product-categories.json',
       '/json-data/product-categories-small.json',
@@ -96,14 +97,47 @@ class AboutOne extends Component {
               <div className="card-body">
 
                 <h5 className="card-title text-center">
-                  Most Basic CounterPreloadedState
+                  Most Basic CounterPreloadedState 1
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
-                    <CounterPreloadedState />
+                    <CounterPreloadedState as="preloaded" />
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* (>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>) */}
+
+        <div className="row">
+
+          <div className="col-lg-12 mb-4">
+
+            <div className="card h-100">
+
+              <h2 className="card-header text-center">
+                Thinking in React!
+              </h2>
+
+              <div className="card-body">
+
+                <h5 className="card-title text-center">
+                  Most Basic CounterPreloadedState 2
+                </h5>
+
+                <div className="basic-outer-box padding-two-border-radius-six">
+
+                  <div className="basic-inner-box padding-five-border-radius-three">
+
+                    <CounterPreloadedState as="preloaded" />
 
                   </div>
 
@@ -132,9 +166,9 @@ class AboutOne extends Component {
                   Most Basic CounterMultireducer 'AboutOneMultireducer1'
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <CounterMultireducer as="AboutOneMultireducer1" />
 
@@ -165,9 +199,9 @@ class AboutOne extends Component {
                   Filterable Product Table 1
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <FilterableTable as='AboutOneMultireducerFilterableTable1' optionsArray={dropDownOptions} description='Filterable Product Table 1' />
 

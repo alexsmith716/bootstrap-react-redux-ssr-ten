@@ -18,38 +18,41 @@ import initialState from '../initial-state';
 // Reducer
 export default function reducer(state = initialState.counter, action = {}) {
 
-  // const { countPreloadedState } = state;
-  // const { countMultireducer } = state;
-  // { countPreloadedState: 78, countMultireducer: 0 }
+  // GOT IT!!!!
+  // need to return back ENTIRE state object (modified and un-modified)
 
   switch (action.type) {
 
     case INCREMENT_COUNTER_PRELOADED_STATE:
+      console.log('>>>>>>>>>>>>>>>> counter > SWITCH > action.type > 11111111111: ', (state.countPreloadedState + 1), ' >:::> ', state);
       return {
-        // ...state,
-        countPreloadedState: state.countPreloadedState + 1
+        ...state,
+        countPreloadedState: state.countPreloadedState + 1,
       };
 
     case DECREMENT_COUNTER_PRELOADED_STATE:
+      console.log('>>>>>>>>>>>>>>>> counter > SWITCH > action.type > 2222222222222: ', (state.countPreloadedState - 1), ' >:::> ', state);
       return {
-        // ...state,
-        countPreloadedState: state.countPreloadedState - 1
+        ...state,
+        countPreloadedState: state.countPreloadedState - 1,
       };
 
-    case INCREMENT_COUNTER_MULTIREDUCER: {
+    case INCREMENT_COUNTER_MULTIREDUCER:
+      console.log('>>>>>>>>>>>>>>>> counter > SWITCH > action.type > 3333333333333333: ', (state.countMultireducer + 1), ' >:::> ', state);
       return {
-        // ...state,
-        countMultireducer: state.countMultireducer + 1
+        ...state,
+        countMultireducer: state.countMultireducer + 1,
       };
-    }
 
     case DECREMENT_COUNTER_MULTIREDUCER:
+      console.log('>>>>>>>>>>>>>>>> counter > SWITCH > action.type > 44444444444444444: ', (state.countMultireducer - 1), ' >:::> ', state);
       return {
-        // ...state,
-        countMultireducer: state.countMultireducer - 1
+        ...state,
+        countMultireducer: state.countMultireducer - 1,
       };
 
     default:
+      console.log('>>>>>>>>>>>>>>>> counter > SWITCH > action.type > 555555555555555555: ', state);
       return state;
   }
 }

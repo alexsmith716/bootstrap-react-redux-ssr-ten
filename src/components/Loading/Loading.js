@@ -35,7 +35,7 @@ class Loading extends Component {
 
     return (
 
-      <div className="alert alert-warning text-center" role="alert">{ text }</div>
+      <div className="alert alert-warning text-center mb-0" role="alert">{ text }</div>
 
     );
   }

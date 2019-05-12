@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'multireducer';
@@ -223,7 +223,7 @@ class FilterableTable extends Component {
         {/* (>>>>>>>>>>>>>>>>>>>>>> DropdownSelect >>>>>>>>>>>>>>>>>>>>>>>>) */}
 
         <div className={`container-padding-border-radius-2`}>
-          <div className="container-flex bg-color-ivory container-padding-border-radius-1">
+          <div className="d-flex bg-color-ivory container-padding-border-radius-1">
             <div className="width-400">
 
               <DropdownSelect
@@ -237,19 +237,20 @@ class FilterableTable extends Component {
           </div>
         </div>
 
-        <br/>
-
         {/* (>>>>>>>>>>>>>>>>>>>>>> LOADING >>>>>>>>>>>>>>>>>>>>>>>>) */}
 
         {dropDownOptionSelected !== '' &&
           !error &&
           isLoading && (
 
-            <div className={`container-padding-border-radius-2`}>
-              <div className="container-padding-border-radius-1">
+            <div>
+              <br/>
+              <div className={`container-padding-border-radius-2`}>
+                <div className="container-padding-border-radius-1">
 
-                <Loading text={ loadingText } />
+                  <Loading text={ loadingText } />
 
+                </div>
               </div>
             </div>
           )}
@@ -259,11 +260,14 @@ class FilterableTable extends Component {
         {error &&
           !isLoading && (
 
-            <div className={`container-padding-border-radius-2`}>
-              <div className="container-padding-border-radius-1">
+            <div>
+              <br/>
+              <div className={`container-padding-border-radius-2`}>
+                <div className="container-padding-border-radius-1">
 
-                <div className="alert alert-danger text-center" role="alert">{ errorText }</div>
+                  <div className="alert alert-danger text-center" role="alert">{ errorText }</div>
 
+                </div>
               </div>
             </div>
           )}
@@ -275,11 +279,14 @@ class FilterableTable extends Component {
           dropDownOptionSelected !== '' &&
           items !== null && (
 
-            <div className={`container-padding-border-radius-2`}>
-              <div className="container-padding-border-radius-1">
+            <div>
+              <br/>
+              <div className={`container-padding-border-radius-2`}>
+                <div className="container-padding-border-radius-1">
 
-                {items}
+                  {items}
 
+                </div>
               </div>
             </div>
           )}
@@ -291,31 +298,34 @@ class FilterableTable extends Component {
           dropDownOptionSelected !== '' &&
           items === null && (
 
-            <div className={`container-padding-border-radius-2`}>
-              <div className="container-flex bg-color-ivory container-padding-border-radius-1">
-                <div className="width-400">
+            <div>
+              <br/>
+                <div className={`container-padding-border-radius-2`}>
+                  <div className="container-flex bg-color-ivory container-padding-border-radius-1">
+                    <div className="width-400">
 
-                  <SearchBar 
-                    filterText={ this.state.filterText }
-                    inStockOnly={ this.state.inStockOnly }
-                    onFilterTextChange={ handleFilterTextChange }
-                    onInStockChange={ handleInStockChange }
-                  />
+                      <SearchBar 
+                        filterText={ this.state.filterText }
+                        inStockOnly={ this.state.inStockOnly }
+                        onFilterTextChange={ handleFilterTextChange }
+                        onInStockChange={ handleInStockChange }
+                      />
 
+                    </div>
+                  </div>
+
+                  <br />
+
+                  <div>
+
+                    <Tables 
+                      tablesData={ fetchedData } 
+                      filterText={ this.state.filterText }
+                      inStockOnly={ this.state.inStockOnly }
+                    />
+
+                  </div>
                 </div>
-              </div>
-
-              <br />
-
-              <div>
-
-                <Tables 
-                  tablesData={ fetchedData } 
-                  filterText={ this.state.filterText }
-                  inStockOnly={ this.state.inStockOnly }
-                />
-
-              </div>
             </div>
           )}
 

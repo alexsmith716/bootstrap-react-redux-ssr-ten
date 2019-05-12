@@ -153,20 +153,6 @@ hr.light {
   display: flex;
 }
 
-.card-body-container {
-  padding: calculate-rem(2px);
-  border: calculate-rem(1px) solid #d8dee2;
-  border-radius: calculate-rem(6px);
-  // background-color: #F4F4F4;
-}
-
-.card-body-content {
-  padding: calculate-rem(5px);
-  border: calculate-rem(1px) solid #d8dee2;
-  border-radius: calculate-rem(3px);
-  // background-color: #FFFFF0;
-}
-
 .boundingbox {
   position: absolute;
   box-shadow: 0 0 0 3px #333333 inset;
@@ -211,14 +197,60 @@ hr.light {
   }
 }
 
+// ===============================================================
+
+// padding-top: 1.5em;
+// padding-right: .5em;
+// padding-bottom: 1.5em;
+// padding-left: 3em;
+
+// p {padding: 1.5em .5em 1.5em 3em;}
+
+// .box {
+//   width: px;
+//   height: px;
+//   margin: 24px 48px; /* = 24px 48px 24px 48px */
+//   border: calculate-rem(1px) solid #d8dee2;
+//   padding: 12px 18px 6px; /* = 12px 18px 6px 18px */
+// }
+
+// BOX -------------------------------------------------
+// margin > 
+//    background-color > 
+//      background: image > 
+//        border > 
+//          outline > padding > content (centered)
+
+// ===============================================================
+
+.basic-outer-box {
+  border: calculate-rem(1px) solid #d8dee2;
+  padding: calculate-rem(2px) calculate-rem(2px);
+}
+
+.basic-inner-box {
+  border: calculate-rem(1px) solid #d8dee2;
+  padding: calculate-rem(5px) calculate-rem(5px);
+}
+
+.padding-two-border-radius-six {
+  padding: calculate-rem(2px);
+  border-radius: calculate-rem(6px);
+}
+
+.padding-five-border-radius-three {
+  padding: calculate-rem(5px);
+  border-radius: calculate-rem(3px);
+}
+
 .container-padding-border-radius-1 {
-  padding: calculate-rem(10px);
+  padding: calculate-rem(10px) calculate-rem(10px);
   border: calculate-rem(1px) solid #009900;
   border-radius: calculate-rem(3px);
 }
 
 .container-padding-border-radius-2 {
-  padding: calculate-rem(10px);
+  padding: calculate-rem(10px) calculate-rem(10px);
   border: calculate-rem(2px) solid #B0C4DE;
   border-radius: calculate-rem(3px);
 }

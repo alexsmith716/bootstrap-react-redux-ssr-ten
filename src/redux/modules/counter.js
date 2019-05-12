@@ -19,7 +19,7 @@ import initialState from '../initial-state';
 export default function reducer(state = initialState.counter, action = {}) {
 
   // GOT IT!!!!
-  // need to return back ENTIRE state object (modified and un-modified)
+  // have to return back ENTIRE state object (modified and un-modified)
 
   switch (action.type) {
 

@@ -13,10 +13,6 @@ class CatsForm extends Component {
       owner: '',
       description: ''
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.addCat = this.addCat.bind(this);
   }
 
   // --------------------------------------------------------------------------
@@ -112,7 +108,7 @@ class CatsForm extends Component {
       <div className="row justify-content-md-center">
         <div className="col-md-auto">
 
-          <div className="container-flex bg-color-ivory container-padding-border-radius-2">
+          <div className="d-flex bg-color-ivory container-padding-border-radius-2">
             <div className="width-600">
 
                 <form onSubmit={this.handleSubmit} >
@@ -133,11 +129,12 @@ class CatsForm extends Component {
 
                   <CatInputs cats={cats} onChange={ this.handleChange } />
 
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
+                  <div className="row text-center">
+                    <div className="col-lg-6 col-md-6 col-sm-12 mb-lg-0 mb-md-0 mb-sm-2 mb-2">
                       <button onClick={this.addCat} className="btn btn-primary">Add new cat</button>
                     </div>
-                    <div className="form-group col-md-6">
+
+                    <div className="col-lg-6 col-md-6 col-sm-12">
                       <button type="submit" className="btn btn-success">Submit</button>
                     </div>
                   </div>

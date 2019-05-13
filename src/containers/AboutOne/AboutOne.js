@@ -104,7 +104,7 @@ class AboutOne extends Component {
 
                   <div className="basic-inner-box padding-five-border-radius-three">
 
-                    <CounterPreloadedState as="preloaded" />
+                    <CounterPreloadedState/>
 
                   </div>
 
@@ -137,7 +137,7 @@ class AboutOne extends Component {
 
                   <div className="basic-inner-box padding-five-border-radius-three">
 
-                    <CounterPreloadedState as="preloaded" />
+                    <CounterPreloadedState/>
 
                   </div>
 
@@ -232,9 +232,9 @@ class AboutOne extends Component {
                   Filterable Product Table 2
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <FilterableTable as='AboutOneMultireducerFilterableTable2' optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
 
@@ -265,9 +265,9 @@ class AboutOne extends Component {
                   Cats Form
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <CatsForm />
 
@@ -297,9 +297,9 @@ class AboutOne extends Component {
                   Making dynamic form inputs with React
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <IncorporationForm />
 
@@ -330,9 +330,9 @@ class AboutOne extends Component {
                   Cats Form
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <CatsForm />
 
@@ -363,9 +363,9 @@ class AboutOne extends Component {
                   Cats Form
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <CatsForm />
 
@@ -430,9 +430,9 @@ class AboutOne extends Component {
                   Lifting State Up 'AboutOne1'
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <TemperatureCalculator as="AboutOne1" />
 
@@ -463,9 +463,9 @@ class AboutOne extends Component {
                   Lifting State Up 'AboutOne2'
                 </h5>
 
-                <div className="card-body-container">
+                <div className="basic-outer-box padding-two-border-radius-six">
 
-                  <div className="card-body-content">
+                  <div className="basic-inner-box padding-five-border-radius-three">
 
                     <TemperatureCalculator as="AboutOne2" />
 

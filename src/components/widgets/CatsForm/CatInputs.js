@@ -11,7 +11,7 @@ const CatInputs = ({ cats, onChange }) => {
 
       return (
 
-        <div className="form-row basic-border-goldenrod-1 mb-4" key={idx}>
+        <div className="form-row basic-border-goldenrod-1 mb-3" key={idx}>
 
           <div className="form-group col-md-6">
 

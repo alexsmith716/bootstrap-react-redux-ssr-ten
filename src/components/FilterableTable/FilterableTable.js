@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'multireducer';
 import { connect } from 'react-redux';
@@ -94,15 +93,47 @@ class FilterableTable extends Component {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentWillUnmount() <<<<<<<<<<<<<<');
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > shouldComponentUpdate() > nextProps: ', nextProps);
-    return nextProps;
+  // enumerateObjectValues(obj) {
+  //   let isArray = obj instanceof Array;
+  //   for (var j in obj) {
+  //     if (obj.hasOwnProperty(j)) {
+  //       if (typeof(obj[j]) === 'object') {
+  //         if(!isArray) {
+  //           console.log('############################# OBJECT #############################1: ', j + ':');
+  //         }
+  //         this.enumerateObjectValues(obj[j]);
+  //       } else if(!isArray) {
+  //         console.log('============ ARRAY ============1: ', j + ':' + obj[j]);
+  //       }
+  //     }
+  //   }
+  // };
+
+  enumerateObjectValues(obj) {
+    let isArray = obj instanceof Array;
+    Object.keys(obj).forEach(prop => {
+      if (typeof(obj[prop]) == 'object') {
+        if(!isArray) {
+          console.log('############################# OBJECT #############################2: ', prop + ':');
+        }
+        if(obj[prop] !== null) {
+          this.enumerateObjectValues(obj[prop]);
+        }
+        // this.enumerateObjectValues(obj[prop]);
+      } else if(!isArray) {
+        console.log('============ ARRAY ============2: ', prop + ':' + obj[prop]);
+      }
+    })
   };
 
   // static getDerivedStateFromProps(props, state) {
   //   console.log('>>>>>>>>>>>>>>>> FilterableTable > getDerivedStateFromProps() <<<<<<<<<<<<<<<<<<<<<<');
   //   return null;
   // }
+
+  componentDidCatch(error, info) {
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidCatch() > info.componentStack: ', info.componentStack);
+  }
 
   componentDidCatch(error, info) {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidCatch() > info.componentStack: ', info.componentStack);
@@ -124,6 +155,10 @@ class FilterableTable extends Component {
       : arrayLike = null;
 
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > ARRAYLIKE ??? ', arrayLike, '!');
+
+    if (fetchedData) {
+      // this.enumerateObjectValues(fetchedData);
+    }
 
     if (fetchedData && (dropDownOptionSelected.indexOf('https') === 0 || dropDownOptionSelected.indexOf('http') === 0)) {
 
@@ -174,17 +209,15 @@ class FilterableTable extends Component {
 
         items = Object.keys(fetchedData).map((item, index) => {
           // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.keys(): index: ', index, ' item: ', item,' fetchedData[item]: ', fetchedData[item]);
-          return <div key={index}>{`${index}: ${item}: "${fetchedData[item]}"`}</div>;
+          return <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>;
         });
 
         // items = Object.keys(fetchedData).map((item, index) => (
-        //   <div key={index}>{`${index}: ${item}: "${fetchedData[item]}"`}</div>
+        //   <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>
         // ));
 
       }
     }
-
-    // 1st (fetchedData = null) (isLoading = false) (dropDownOptionSelected = '') (items = null)
 
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > isLoading: ', isLoading);

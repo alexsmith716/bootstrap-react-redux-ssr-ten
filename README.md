@@ -13,6 +13,15 @@ https://github.com/arthurbergmz/webpack-pwa-manifest
 =============================================================
 =============================================================
 
+‘access-control-allow-origin’
+
+‘Access-Control-Allow-Headers’
+
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at https://api.com/feeds. 
+(Reason: missing token ‘access-control-allow-origin’ in CORS header ‘Access-Control-Allow-Headers’ from CORS preflight channel).
+
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at https://api.com/feeds. (Reason: CORS request did not succeed).
+
 {
   "current_user_url": "https://api.github.com/user",
   "current_user_authorizations_html_url": "https://github.com/settings/connections/applications{/client_id}",

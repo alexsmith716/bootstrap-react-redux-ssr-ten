@@ -22,7 +22,6 @@ export default function rootReducer(history) {
     counter,
     device,
     counterCollection: multireducer({
-      // preloaded: counter,
       AboutOneMultireducer1: counter,
       AboutTwoMultireducer1: counter,
       AboutTwoMultireducer2: counter,

@@ -39,32 +39,36 @@ export default function reducer(state = initialState.filterableTable, action = {
   switch (action.type) {
 
     case SELECTED_OPTION:
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > SELECTED_OPTION > state: ', state);
       return {
         ...state,
+        filterText: '',
+        inStockOnly: false,
         error: false,
         isLoading: true,
-        externalData: null,
+        fetchedData: null,
         dropDownOptionSelected: action.option,
       };
 
     case LOAD:
-      console.log('>>>>>>>>>>>>>>>> filterableTable > SWITCH > action.type > LOAD!!!: ', action.type);
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD > state: ', state);
       return {
         ...state,
         isLoading: true,
       };
 
     case LOAD_SUCCESS:
-      console.log('>>>>>>>>>>>>>>>> filterableTable > SWITCH > action.type > LOAD_SUCCESS!!!: ', action.type);
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > state: ', state);
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action.result: ', action.result);
       return {
         ...state,
         error: null,
-        isLoading: null,
-        externalData: action.result,
+        isLoading: false,
+        fetchedData: action.result,
       };
 
     case LOAD_FAIL:
-      console.log('>>>>>>>>>>>>>>>> filterableTable > SWITCH > action.type > LOAD_FAIL!!!: ', action.type);
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_FAIL > state: ', state);
       return {
         ...state,
         error: true,
@@ -72,6 +76,7 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     default:
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > default > state: ', state);
       return state;
   }
 }
@@ -79,7 +84,6 @@ export default function reducer(state = initialState.filterableTable, action = {
 // Action Creators
 // -------------------
 export function selectedOption(value) {
-  console.log('>>>>>>>>>>>>>>>> filterableTable > selectedOption(value) > value.selected: ', value.selected);
   return {
     type: SELECTED_OPTION,
     option: value.selected
@@ -87,22 +91,19 @@ export function selectedOption(value) {
 };
 
 export function loadAction() {
-  console.log('>>>>>>>>>>>>>>>> filterableTable > loadAction() <<<<<<<<<<<<<<<<<');
   return {
     type: LOAD
   }
 };
 
-export function loadSuccess(externalData) {
-  console.log('>>>>>>>>>>>>>>>> filterableTable > loadSuccess() > externalData:', externalData.data);
+export function loadSuccess(fetchedData) {
   return {
     type: LOAD_SUCCESS,
-    result: externalData.data
+    result: fetchedData.data
   }
 };
 
 export function loadFailure(error) {
-  console.log('>>>>>>>>>>>>>>>> filterableTable > loadFailure() > error:', error);
   return {
     type: LOAD_FAIL,
   }
@@ -114,14 +115,12 @@ export function load(value) {
 
     return axios.get(value.request)
       .then(response => {
-        console.log('>>>>>>>>>>>>>>>> axiosClient.then(response) <<<<<<<<<<<<<<<<<<<<<<')
-        // dispatch(loadSuccess(response))
-        setTimeout( () => dispatch(loadSuccess(response)), 4000 )
+        dispatch(loadSuccess(response))
+        // setTimeout( () => dispatch(loadSuccess(response)), 1000 )
       })
       .catch(error => {
-        console.log('>>>>>>>>>>>>>>>> axiosClient.catch(error) <<<<<<<<<<<<<<<<<<<<<<')
-        // dispatch(loadFailure(error))
-        setTimeout( () => dispatch(loadFailure(error)), 4000 )
+        dispatch(loadFailure(error))
+        // setTimeout( () => dispatch(loadFailure(error)), 1000 )
       })
   }
 }

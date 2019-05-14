@@ -12,6 +12,8 @@ export default {
   },
 
   filterableTable: {
+    filterText: '',
+    inStockOnly: false,
     loaded: false,
     dropDownOptionSelected: '',
     error: false,

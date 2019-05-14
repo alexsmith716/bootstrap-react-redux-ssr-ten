@@ -17,7 +17,7 @@ import * as filterableTableActions from '../../redux/modules/filterableTable';
 // UI bindings
 // @connect({mapStateToProps, mapDispatchToProps})
 @connect(
-  (state, { as }) => ({ 
+  (state, { as }) => ({
     dropDownOptionSelected: state.filterableTableCollection[as].dropDownOptionSelected,
     error: state.filterableTableCollection[as].error,
     isLoading: state.filterableTableCollection[as].isLoading,
@@ -37,11 +37,11 @@ class FilterableTable extends Component {
     dropDownOptionSelected: PropTypes.string,
     error: PropTypes.bool,
     isLoading: PropTypes.bool,
-    fetchedData: PropTypes.string,
+    // fetchedData: PropTypes. .isRequired,
     // optionsArray: PropTypes.array.isRequired,
     // description: PropTypes.string,
-    // filterText: PropTypes.string,
-    // inStockOnly: PropTypes.string,
+    filterText: PropTypes.string,
+    inStockOnly: PropTypes.bool,
     selectedOption: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
   };
@@ -56,6 +56,14 @@ class FilterableTable extends Component {
   //   this.setState({ inStockOnly: inStockOnly })
   // };
 
+  handleFilterTextChange(filterText) {
+    // this.setState({ filterText: filterText });
+  }
+
+  handleInStockChange(inStockOnly) {
+    // this.setState({ inStockOnly: inStockOnly })
+  }
+
   handleDropdownChange = (e) => {
     const { selectedOption } = this.props;
     // e.preventDefault();
@@ -63,34 +71,6 @@ class FilterableTable extends Component {
       selected: e.target.value
     });
   };
-
-  // ================================================================================================
-
-  // setTimeoutCallback = (d) => this.setState({ error: null, isLoading: null, fetchedData: d });
-
-  // requestDataPromise(r) {
-  //   this._asyncRequest = axios.get(r)
-  //     .then(response => {
-  //       console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > JSON >>>>>> response: ', response);
-  //       console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > JSON > response.data: ', response.data);
-  //       this._asyncRequest = null;
-  //       // this.setState({ fetchedData: response.data, isLoading: false });
-  //       setTimeout( () => this.setTimeoutCallback(response.data), 2000 );
-  //     })
-  //     .catch(error => {
-  //       if (error.fetchedData) {
-  //         // The request was made and the server responded with a status code that falls out of the range of 2xx
-  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.data: ', error.response.data);
-  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.status: ', error.response.status);
-  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.response.headers: ', error.response.headers);
-  //       } else {
-  //         // Something happened in setting up the request that triggered an Error
-  //         console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.message: ', error.message);
-  //       }
-  //       console.log('>>>>>>>>>>>>>>>> FilterableTable > requestDataPromise() > json > ERROR.config: ', error.config);
-  //       this.setState({ error: true, isLoading: false, fetchedData: null });
-  //     });
-  // }
 
   // ================================================================================================
 
@@ -132,13 +112,8 @@ class FilterableTable extends Component {
 
     const styles = require('./scss/FilterableTable.scss');
 
-    const error = this.props.error;
-    const isLoading = this.props.isLoading;
-    const dropDownOptionSelected = this.props.dropDownOptionSelected;
-    const fetchedData = this.props.fetchedData;
-
-    const optionsArray = this.props.optionsArray;
-    const description = this.props.description;
+    const { error, isLoading, dropDownOptionSelected, fetchedData } = this.props;
+    const { optionsArray, description, filterText, inStockOnly } = this.props;
 
     const loadingText = 'Fetching Requested Data ...';
     const errorText = 'Error Fetching Requested Data !';
@@ -181,15 +156,15 @@ class FilterableTable extends Component {
           let fromItem = item;
           let fromIndex = index;
           let ok = Object.keys(fromItem).map((item, index) => {
-            return <div key={index}>{`${fromIndex}: ${item}: "${fromItem[item]}"`}</div>
+            return <div key={index}>{`${fromIndex}: ${item}: ${fromItem[item]}`}</div>
           })
 
           return (
-            <div>
+            <div key={fromIndex}>
               {ok}
 
               {fromIndex !== fetchedData.length-1 && (
-                <div key={index}>---------</div>
+                <div>---------</div>
               )}
             </div>
           )
@@ -207,12 +182,15 @@ class FilterableTable extends Component {
         // ));
 
       }
-
-      // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > dropDownOptionSelected: ', dropDownOptionSelected);
-      // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > items:::::::::::::::::: ', items);
-      // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.entries()::::::: ', Object.entries(fetchedData));
-      // items = <div>{JSON.stringify(fetchedData)}</div>;
     }
+
+    // 1st (fetchedData = null) (isLoading = false) (dropDownOptionSelected = '') (items = null)
+
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > isLoading: ', isLoading);
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > dropDownOptionSelected: ', dropDownOptionSelected);
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > items:::::::::::::::::: ', items);
+    // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.entries()::::::: ', Object.entries(fetchedData));
 
     // ------------------------------------------------------------------------------------
 
@@ -305,10 +283,10 @@ class FilterableTable extends Component {
                     <div className="width-400">
 
                       <SearchBar 
-                        filterText={ this.state.filterText }
-                        inStockOnly={ this.state.inStockOnly }
-                        onFilterTextChange={ handleFilterTextChange }
-                        onInStockChange={ handleInStockChange }
+                        filterText={ filterText }
+                        inStockOnly={ inStockOnly }
+                        onFilterTextChange={ this.handleFilterTextChange }
+                        onInStockChange={ this.handleInStockChange }
                       />
 
                     </div>
@@ -320,8 +298,8 @@ class FilterableTable extends Component {
 
                     <Tables 
                       tablesData={ fetchedData } 
-                      filterText={ this.state.filterText }
-                      inStockOnly={ this.state.inStockOnly }
+                      filterText={ filterText }
+                      inStockOnly={ inStockOnly }
                     />
 
                   </div>

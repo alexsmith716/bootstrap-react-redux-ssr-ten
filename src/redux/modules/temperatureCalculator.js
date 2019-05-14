@@ -30,6 +30,7 @@ export default function reducer(state = initialState.temperatureCalculator, acti
     }
 
     default:
+      console.log('>>>>>>>>>>>>>>>> temperatureCalculator > reducer > SWITCH > action.type > default > state: ', state);
       return state;
   }
 }

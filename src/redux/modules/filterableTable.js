@@ -99,7 +99,7 @@ export function loadAction() {
 export function loadSuccess(fetchedData) {
   return {
     type: LOAD_SUCCESS,
-    result: fetchedData.data
+    result: fetchedData
   }
 };
 
@@ -115,12 +115,16 @@ export function load(value) {
 
     return axios.get(value.request)
       .then(response => {
-        dispatch(loadSuccess(response))
-        // setTimeout( () => dispatch(loadSuccess(response)), 1000 )
+        console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > typeof  RESPONSE.data: ', typeof response.data)
+        console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE.data: ', response.data)
+        console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE > JSON.stringify: ', JSON.stringify(response.data))
+        dispatch(loadSuccess(response.data))
+        // setTimeout( () => dispatch(loadSuccess(response.data)), 1000 )
       })
       .catch(error => {
-        dispatch(loadFailure(error))
-        // setTimeout( () => dispatch(loadFailure(error)), 1000 )
+        console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > ERROR.data: ', error.response ? error.response.data : error)
+        dispatch(loadFailure(error.response ? error.response.data : error))
+        // setTimeout( () => dispatch(loadFailure(error.response ? error.response.data : error)), 1000 )
       })
   }
 }

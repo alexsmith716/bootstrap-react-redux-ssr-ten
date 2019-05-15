@@ -53,6 +53,7 @@ class AboutOne extends Component {
       'https://api.github.com/events',
       'https://api.github.com/gists/public',
       'https://api.github.com/gists/656565656565',
+      '/json-data/events-test.json',
       '/json-data/product-categories-small.json',
       '/json-data/product-categories.json',
       '/json-data/product-categories-small.json',

@@ -109,19 +109,36 @@ class FilterableTable extends Component {
   //   }
   // };
 
-  enumerateObjectValues(obj) {
+  enumerateObjectValues(obj, i) {
+
     let isArray = obj instanceof Array;
-    Object.keys(obj).forEach(prop => {
+
+    if (i) {
+      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ', i);
+    }
+
+    Object.keys(obj).forEach((prop, index) => {
+
       if (typeof(obj[prop]) == 'object') {
+
         if(!isArray) {
-          console.log('############################# OBJECT #############################2: ', prop + ':');
+          console.log('################### OBJECT ###################: ', index, ' ::', prop + ':');
         }
-        if(obj[prop] !== null) {
+
+        if(obj[prop] !== null && isArray) {
+
+          this.enumerateObjectValues(obj[prop], index);
+
+        } else if(obj[prop] !== null) {
+
           this.enumerateObjectValues(obj[prop]);
+
         }
-        // this.enumerateObjectValues(obj[prop]);
+
       } else if(!isArray) {
-        console.log('============ ARRAY ============2: ', prop + ':' + obj[prop]);
+
+        console.log('======= ARRAY =======: ', prop + ':' + obj[prop]);
+
       }
     })
   };
@@ -157,66 +174,29 @@ class FilterableTable extends Component {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > ARRAYLIKE ??? ', arrayLike, '!');
 
     if (fetchedData) {
-      // this.enumerateObjectValues(fetchedData);
-    }
+      this.enumerateObjectValues(fetchedData);
 
-    if (fetchedData && (dropDownOptionSelected.indexOf('https') === 0 || dropDownOptionSelected.indexOf('http') === 0)) {
+      // items = Array.from(fetchedData).map((item, index) => {
 
-      console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData.length: ', fetchedData.length);
+      //   let fromItem = item;
+      //   let fromIndex = index;
+      //   let ok = Object.keys(fromItem).map((item, index) => {
+      //     return <div key={index}>{`${fromIndex}: ${item}: ${fromItem[item]}`}</div>
+      //   })
 
-      // convert array-like object into array
-      if (arrayLike) {
+      //   return (
+      //     <div key={fromIndex}>
+      //       {ok}
 
-        // const listItems1 = Array.prototype.slice.call(fetchedData);
-        // listItems1.map(item => { 
-        //   console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > Array.prototype.slice.call(): ', item);
-        // });
-
-        // const listItems2 = Array.from(fetchedData);
-        // listItems2.map(item => { 
-        //   console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > Array.from(): ', item);
-        // });
-
-        // Array.from(fetchedData).forEach((item, index) => {
-        //   console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Array.from()1: index: ', index, ' item: ', item);
-        // });
-
-        // items = Array.from(fetchedData).map((item, index) => {
-        //   console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Array.from()2: index: ', index, ' item: ', item);
-        //   return <div key={index}>{`${index}: ${item}`}</div>;
-        // });
-
-        items = Array.from(fetchedData).map((item, index) => {
-
-          let fromItem = item;
-          let fromIndex = index;
-          let ok = Object.keys(fromItem).map((item, index) => {
-            return <div key={index}>{`${fromIndex}: ${item}: ${fromItem[item]}`}</div>
-          })
-
-          return (
-            <div key={fromIndex}>
-              {ok}
-
-              {fromIndex !== fetchedData.length-1 && (
-                <div>---------</div>
-              )}
-            </div>
-          )
-        });
-
-      } else {
-
-        items = Object.keys(fetchedData).map((item, index) => {
-          // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.keys(): index: ', index, ' item: ', item,' fetchedData[item]: ', fetchedData[item]);
-          return <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>;
-        });
-
-        // items = Object.keys(fetchedData).map((item, index) => (
-        //   <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>
-        // ));
-
-      }
+      //       {fromIndex !== fetchedData.length-1 && (
+      //         <div>---------</div>
+      //       )}
+      //     </div>
+      //   )
+      // });
+      return (
+        <div>BUBGUGBGUVVGVIG</div>
+      )
     }
 
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);

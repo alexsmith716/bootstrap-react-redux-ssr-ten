@@ -98,46 +98,71 @@ class FilterableTable extends Component {
   //   for (var j in obj) {
   //     if (obj.hasOwnProperty(j)) {
   //       if (typeof(obj[j]) === 'object') {
-  //         if(!isArray) {
+  //         if (!isArray) {
   //           console.log('############################# OBJECT #############################1: ', j + ':');
   //         }
   //         this.enumerateObjectValues(obj[j]);
-  //       } else if(!isArray) {
+  //       } else if (!isArray) {
   //         console.log('============ ARRAY ============1: ', j + ':' + obj[j]);
   //       }
   //     }
   //   }
   // };
 
-  enumerateObjectValues(obj, i) {
+  enumerateObjectValues(obj, i, z) {
 
     let isArray = obj instanceof Array;
 
     if (i) {
       console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ', i);
     }
+    if (z === 1) {
+      console.log('------------------------------------');
+    }
 
     Object.keys(obj).forEach((prop, index) => {
 
-      if (typeof(obj[prop]) == 'object') {
+      // ---------------------------------------------
 
-        if(!isArray) {
-          console.log('################### OBJECT ###################: ', index, ' ::', prop + ':');
+      if (typeof(obj[prop]) === 'object') {
+
+        // ---------------------------------------------
+
+        if (!isArray) {
+
+          index === 1 ? console.log('------------------------------') : null;
+
+          if (obj[prop] !== null) {
+            console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
+          }
+
+          if (obj[prop] === null) {
+            console.log('======= NULL =============: ', prop + ': ' + obj[prop]);
+          }
         }
 
-        if(obj[prop] !== null && isArray) {
+        // ---------------------------------------------
 
-          this.enumerateObjectValues(obj[prop], index);
+        if (obj[prop] !== null && isArray) {
 
-        } else if(obj[prop] !== null) {
+          console.log('>>>>>>>>>>>>>>>>>>>>>>> REAL ARRAY! <<<<<<<<<<<<<<<<<<<<<<');
+          this.enumerateObjectValues(obj[prop], index, undefined);
 
-          this.enumerateObjectValues(obj[prop]);
+        } else if (obj[prop] !== null) {
+
+          this.enumerateObjectValues(obj[prop], undefined, index);
 
         }
 
-      } else if(!isArray) {
+      // ---------------------------------------------
 
-        console.log('======= ARRAY =======: ', prop + ':' + obj[prop]);
+      } else if (!isArray) {
+
+        console.log('======= NON-OBJECT =======: ', index, ' :: ', prop + ': ' + obj[prop]);
+
+        if (z === 1 && index === 1) {
+          console.log('------------------------------------');
+        }
 
       }
     })

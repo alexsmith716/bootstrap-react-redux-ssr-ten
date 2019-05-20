@@ -211,6 +211,12 @@ class FilterableTable extends Component {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Polyfill
   // 'Array.forEach' blocking
 
+  // going over JSON and enumeration
+  // also going over Promises/Async-Await
+  // when/if to handle thread non-blocking when enumerating?
+  // nail down a basic/recursive enumerator to (possibly) handle all JSON structures
+  // could result in a default go-to JSON parser/enumerator
+
   setTimeoutPromise = (delay) => new Promise(resolve => setTimeout(resolve, delay))
 
   setTimeoutPromise(delay) {

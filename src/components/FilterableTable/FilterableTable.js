@@ -219,6 +219,12 @@ class FilterableTable extends Component {
     });
   }
 
+  setImmediatePromise() {
+    return new Promise((resolve) => {
+      setImmediate(() => resolve());
+    });
+  }
+
   nextTickPromise() {
     return new Promise((resolve) => {
       process.nextTick(() => resolve());

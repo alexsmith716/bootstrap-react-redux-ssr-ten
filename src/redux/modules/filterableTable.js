@@ -117,7 +117,7 @@ export function load(value) {
       .then(response => {
         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > typeof  RESPONSE.data: ', typeof response.data)
         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE.data: ', response.data)
-        console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE > JSON.stringify: ', JSON.stringify(response.data))
+        // console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE > JSON.stringify: ', JSON.stringify(response.data))
         dispatch(loadSuccess(response.data))
         // setTimeout( () => dispatch(loadSuccess(response.data)), 1000 )
       })

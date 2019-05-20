@@ -211,6 +211,111 @@ class FilterableTable extends Component {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Polyfill
   // 'Array.forEach' blocking
 
+  nextTickPromise() {
+    return new Promise((resolve) => {
+      process.nextTick(() => resolve());
+    });
+  }
+
+  asyncForEach = async(array, cb) => {
+    for (let i = 0; i < array.length; i++) {
+      await cb(array[i], i, array)
+    }
+  }
+
+  async enumerateObjectValuesB(obj, i, z) {
+    let isArray = obj instanceof Array;
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& obj: ', obj);
+
+    if (i) {
+      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ', i);
+    }
+    if (z === 1) {
+      console.log('------------------------------------');
+    }
+
+    let keys = Object.keys(obj);
+    //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. Object.keys(obj)!!!!: ', keys);
+    
+    // await this.asyncForEach(obj, async (prop, index, a) => {
+    await this.asyncForEach(keys, async (prop, index, a) => {
+      // ------------------------------------
+      // await this.setTimeoutPromise(0)
+      // await this.setTimeoutPromise(0)
+      // await this.setImmediatePromise()
+      await this.nextTickPromise()
+      // ------------------------------------
+
+      // console.log('################### 000000 ################### index: ', index);
+      // console.log('################### 000000 ################### obj[prop]: ', obj[prop]);
+      // console.log('################### 000000 ################### isArray: ', isArray);
+      // console.log('################### 000000 ################### prop: ', prop);
+
+      if (typeof(obj[prop]) === 'object') {
+
+        // found an object "{}"
+        console.log('------------------- 00000000 -----------------: ', obj[prop]);
+
+        if (isArray) {
+          // found an object "{}" and an instanceof Array and NULL or not
+          console.log('------------------- 00000000 YA -----------------: ', obj[prop], ' :: ', obj[prop].length);
+        } else {
+          // console.log('------------------- 00000000 NA -----------------: ', obj[prop]);
+          index === 1 ? console.log('----------------XXXXXXXXXXXXXXXXXXXXXXXXXXXX--------------') : null;
+        }
+
+        if (!isArray) {
+
+          // index === 1 ? console.log('------------------------------') : null;
+
+          if (obj[prop] !== null) {
+            console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
+          }
+
+          if (obj[prop] === null) {
+            console.log('======= NULL =============: ', prop + ': ' + obj[prop]);
+          }
+        }
+
+        if (obj[prop] !== null) {
+
+          console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv00000 <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
+
+          if (isArray) {
+            console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv11111 YA <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop], ' :: ', obj[prop].length);
+            this.enumerateObjectValues(obj[prop], index, undefined);
+
+          } else {
+            console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv2222  <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
+            this.enumerateObjectValues(obj[prop], undefined, index);
+          }
+        }
+        // if (obj[prop] !== null) {
+
+        //   console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv00000 <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
+
+        //   if (isArray) {
+        //     console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv11111 YA <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop], ' :: ', obj[prop].length);
+        //     this.enumerateObjectValuesB(obj[prop], index, undefined);
+
+        //   } else {
+        //     console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv2222  <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
+        //     this.enumerateObjectValuesB(obj[prop], undefined, index);
+        //   }
+        // }
+
+      } else if (!isArray) {
+
+        console.log('======= NON-OBJECT =======: ', index, ' :: ', prop + ': ' + obj[prop]);
+
+        if (z === 1 && index === 1) {
+          console.log('------------------------------------');
+        }
+
+      }
+    })
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Done !')
+  };
   enumerateObjectValues(obj, i, z) {
 
     let isArray = obj instanceof Array;
@@ -328,8 +433,8 @@ class FilterableTable extends Component {
     // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > ARRAYLIKE ??? ', arrayLike, '!');
 
     if (fetchedData) {
-      // this.enumerateObjectValuesB(fetchedData);
-      this.enumerateObjectValues(fetchedData);
+      this.enumerateObjectValuesB(fetchedData);
+      // this.enumerateObjectValues(fetchedData);
       return (
         <div>{`${dropDownOptionSelected}`}</div>
       )

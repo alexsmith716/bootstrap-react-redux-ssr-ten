@@ -211,6 +211,14 @@ class FilterableTable extends Component {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Polyfill
   // 'Array.forEach' blocking
 
+  setTimeoutPromise = (delay) => new Promise(resolve => setTimeout(resolve, delay))
+
+  setTimeoutPromise(delay) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), delay);
+    });
+  }
+
   nextTickPromise() {
     return new Promise((resolve) => {
       process.nextTick(() => resolve());

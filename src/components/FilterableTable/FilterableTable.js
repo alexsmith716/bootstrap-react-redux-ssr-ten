@@ -123,9 +123,6 @@ class FilterableTable extends Component {
       console.log('------------------------------------');
     }
 
-    let o = Object.keys(obj)
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. Object.keys(obj)!!!!: ', o);
-
     Object.keys(obj).forEach((prop, index) => {
 
       // ---------------------------------------------
@@ -139,8 +136,6 @@ class FilterableTable extends Component {
           index === 1 ? console.log('------------------------------') : null;
 
           if (obj[prop] !== null) {
-            // "actor": { "id": 50583296, "login": "A-Amani" }
-            // ################### OBJECT ###################:  3  ::  actor:
             console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
           }
 
@@ -153,7 +148,7 @@ class FilterableTable extends Component {
 
         if (obj[prop] !== null && isArray) {
 
-          console.log('>>>>>>>>>>>>>>>>>>>>>>> obj[prop]!!! <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
+          console.log('>>>>>>>>>>>>>>>>>>>>>>> REAL ARRAY! <<<<<<<<<<<<<<<<<<<<<<');
           this.enumerateObjectValues(obj[prop], index, undefined);
 
         } else if (obj[prop] !== null) {
@@ -166,8 +161,6 @@ class FilterableTable extends Component {
 
       } else if (!isArray) {
 
-        // ======= NON-OBJECT =======:  0  ::  category: Sporting Goods 1
-        // ======= NON-OBJECT =======:  3  ::  price: 49.99
         console.log('======= NON-OBJECT =======: ', index, ' :: ', prop + ': ' + obj[prop]);
 
         if (z === 1 && index === 1) {
@@ -181,26 +174,6 @@ class FilterableTable extends Component {
   // ===================================================================================
   // ===================================================================================
   // ===================================================================================
-
-  // >>>>>>>>>>>>>>>>>>>>>>> obj[prop]!!! <<<<<<<<<<<<<<<<<<<<<<:  
-  // Object { category: "Kitchen Basics", stocked: true, name: "Dinnerware 1", price: "49.99", make: "Matte Finish", model: "MF1", seasonal: false, id: 45, customizable: true, count: 478, … }
-  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&:  1 
-  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. Object.keys(obj)!!!!:  
-  // Array(11) [ "category", "stocked", "name", "price", "make", "model", "seasonal", "id", "customizable", "count", … ]
-  // ======= NON-OBJECT =======:  0  ::  category: Kitchen Basics 
-  // ======= NON-OBJECT =======:  1  ::  stocked: true 
-  // ======= NON-OBJECT =======:  2  ::  name: Dinnerware 1 
-  // ======= NON-OBJECT =======:  3  ::  price: 49.99 
-  // ======= NON-OBJECT =======:  4  ::  make: Matte Finish 
-  // ======= NON-OBJECT =======:  5  ::  model: MF1 
-  // ======= NON-OBJECT =======:  6  ::  seasonal: false 
-  // ======= NON-OBJECT =======:  7  ::  id: 45 
-  // ======= NON-OBJECT =======:  8  ::  customizable: true 
-  // ======= NON-OBJECT =======:  9  ::  count: 478 
-  // ======= NON-OBJECT =======:  10  ::  ordered: false 
-  // >>>>>>>>>>>>>>>>>>>>>>> obj[prop]!!! <<<<<<<<<<<<<<<<<<<<<<:  
-  // Object { category: "Kitchen Basics", stocked: true, name: "Picnic Set", price: "149.99", make: "Summer Country Picnic Set", model: "SCPS1", seasonal: true, id: 843, customizable: false, count: 13, … }
-  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&:  2
 
   // node is basically a collection of callbacks that are executed in reaction to various events
   // a single main thread (event loop) that executes the callbacks
@@ -243,7 +216,7 @@ class FilterableTable extends Component {
     }
   }
 
-  async enumerateObjectValuesB(obj, i, z) {
+  async enumerateObjectValuesAsync(obj, i, z) {
     let isArray = obj instanceof Array;
     console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& obj: ', obj);
 
@@ -260,10 +233,9 @@ class FilterableTable extends Component {
     // await this.asyncForEach(obj, async (prop, index, a) => {
     await this.asyncForEach(keys, async (prop, index, a) => {
       // ------------------------------------
-      // await this.setTimeoutPromise(0)
-      // await this.setTimeoutPromise(0)
-      // await this.setImmediatePromise()
-      await this.nextTickPromise()
+      // await this.setTimeoutPromise(0);
+      // await this.setImmediatePromise();
+      await this.nextTickPromise();
       // ------------------------------------
 
       // console.log('################### 000000 ################### index: ', index);
@@ -310,19 +282,6 @@ class FilterableTable extends Component {
             this.enumerateObjectValues(obj[prop], undefined, index);
           }
         }
-        // if (obj[prop] !== null) {
-
-        //   console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv00000 <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
-
-        //   if (isArray) {
-        //     console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv11111 YA <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop], ' :: ', obj[prop].length);
-        //     this.enumerateObjectValuesB(obj[prop], index, undefined);
-
-        //   } else {
-        //     console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv2222  <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
-        //     this.enumerateObjectValuesB(obj[prop], undefined, index);
-        //   }
-        // }
 
       } else if (!isArray) {
 
@@ -336,99 +295,7 @@ class FilterableTable extends Component {
     })
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Done !')
   };
-  enumerateObjectValues(obj, i, z) {
 
-    let isArray = obj instanceof Array;
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& obj: ', obj);
-
-    if (i) {
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ', i);
-    }
-    if (z === 1) {
-      console.log('------------------------------------');
-    }
-
-    Object.keys(obj).forEach((prop, index) => {
-
-      // ---------------------------------------------
-
-      if (typeof(obj[prop]) === 'object') {
-
-        // found an object "{}"
-        console.log('------------------- 00000000 -----------------: ', obj[prop]);
-
-        if (isArray) {
-          // found an object "{}" and an instanceof Array and NULL or not
-          console.log('------------------- 00000000 YA -----------------: ', obj[prop], ' :: ', obj[prop].length);
-        } else {
-          // console.log('------------------- 00000000 NA -----------------: ', obj[prop]);
-          index === 1 ? console.log('----------------XXXXXXXXXXXXXXXXXXXXXXXXXXXX--------------') : null;
-        }
-
-        if (!isArray) {
-
-          // index === 1 ? console.log('------------------------------') : null;
-
-          if (obj[prop] !== null) {
-            console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
-          }
-
-          if (obj[prop] === null) {
-            console.log('======= NULL =============: ', prop + ': ' + obj[prop]);
-          }
-        }
-
-        if (obj[prop] !== null) {
-
-          console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv00000 <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
-
-          if (isArray) {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv11111 YA <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop], ' :: ', obj[prop].length);
-            this.enumerateObjectValues(obj[prop], index, undefined);
-
-          } else {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv2222  <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
-            this.enumerateObjectValues(obj[prop], undefined, index);
-          }
-        }
-
-        // if (!isArray) {
-
-        //   index === 1 ? console.log('------------------------------') : null;
-
-        //   if (obj[prop] !== null) {
-        //     console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
-        //   }
-
-        //   if (obj[prop] === null) {
-        //     console.log('======= NULL =============: ', prop + ': ' + obj[prop]);
-        //   }
-        // }
-
-        // // ---------------------------------------------
-
-        // if (obj[prop] !== null && isArray) {
-
-        //   console.log('>>>>>>>>>>>>>>>>>>>>>>> REAL ARRAY! <<<<<<<<<<<<<<<<<<<<<<');
-        //   this.enumerateObjectValues(obj[prop], index, undefined);
-
-        // } else if (obj[prop] !== null) {
-
-        //   this.enumerateObjectValues(obj[prop], undefined, index);
-
-        // }
-
-      } else if (!isArray) {
-
-        console.log('======= NON-OBJECT =======: ', index, ' :: ', prop + ': ' + obj[prop]);
-
-        if (z === 1 && index === 1) {
-          console.log('------------------------------------');
-        }
-
-      }
-    })
-  };
   // ============================================
   // ============================================
   // ============================================
@@ -453,47 +320,44 @@ class FilterableTable extends Component {
     // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > ARRAYLIKE ??? ', arrayLike, '!');
 
     if (fetchedData) {
-      this.enumerateObjectValuesB(fetchedData);
+      this.enumerateObjectValuesAsync(fetchedData);
       // this.enumerateObjectValues(fetchedData);
-      return (
-        <div>{`${dropDownOptionSelected}`}</div>
-      )
+      // return (
+      //   <div>{`${dropDownOptionSelected}`}</div>
+      // )
     }
 
-    // if (fetchedData && (dropDownOptionSelected.indexOf('https') === 0 || dropDownOptionSelected.indexOf('http') === 0)) {
-    //   console.log('########################################### AAAAAA #############################################')
+    if (fetchedData && (dropDownOptionSelected.indexOf('https') === 0 || dropDownOptionSelected.indexOf('http') === 0)) {
 
-    //   if (arrayLike) {
+      if (arrayLike) {
 
-    //     items = Array.from(fetchedData).map((item, index) => {
+        items = Array.from(fetchedData).map((item, index) => {
 
-    //       let fromItem = item;
-    //       let fromIndex = index;
-    //       let ok = Object.keys(fromItem).map((item, index) => {
-    //         return <div key={index}>{`${fromIndex}: ${item}: ${fromItem[item]}`}</div>
-    //       })
+          let fromItem = item;
+          let fromIndex = index;
+          let ok = Object.keys(fromItem).map((item, index) => {
+            return <div key={index}>{`${fromIndex}: ${item}: ${fromItem[item]}`}</div>
+          })
 
-    //       return (
-    //         <div key={fromIndex}>
-    //           {ok}
+          return (
+            <div key={fromIndex}>
+              {ok}
 
-    //           {fromIndex !== fetchedData.length-1 && (
-    //             <div>---------</div>
-    //           )}
-    //         </div>
-    //       )
-    //     });
+              {fromIndex !== fetchedData.length-1 && (
+                <div>---------</div>
+              )}
+            </div>
+          )
+        });
 
-    //   } else {
+      } else {
 
-    //     items = Object.keys(fetchedData).map((item, index) => {
-    //       console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.keys(): index: ', index, ' item: ', item,' fetchedData[item]: ', fetchedData[item]);
-    //       return <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>;
-    //     });
-    //   }
-    // } else {
-    //   console.log('########################################### BBBBBB #############################################')
-    // }
+        items = Object.keys(fetchedData).map((item, index) => {
+          console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.keys(): index: ', index, ' item: ', item,' fetchedData[item]: ', fetchedData[item]);
+          return <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>;
+        });
+      }
+    }
 
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > isLoading: ', isLoading);

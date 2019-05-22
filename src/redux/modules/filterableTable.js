@@ -5,6 +5,9 @@
 // allow some actions to pass a "promise generator"
 // https://github.com/reduxjs/redux/issues/99
 
+// >>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_FAIL > action.result:  
+// Object { message: "Not Found", documentation_url: "https://developer.github.com/v3/gists/#get-a-single-gist" }
+
 // Actions
 // -------------------
 const LOAD = 'redux-example/filterableTable/LOAD';
@@ -45,6 +48,7 @@ export default function reducer(state = initialState.filterableTable, action = {
         filterText: '',
         inStockOnly: false,
         error: false,
+        errorResponse: {message:'', documentation_url:''},
         isLoading: true,
         fetchedData: null,
         dropDownOptionSelected: action.option,
@@ -62,17 +66,21 @@ export default function reducer(state = initialState.filterableTable, action = {
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action.result: ', action.result);
       return {
         ...state,
-        error: null,
+        error: false,
+        errorResponse: {message:'', documentation_url:''},
         isLoading: false,
         fetchedData: action.result,
       };
 
     case LOAD_FAIL:
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_FAIL > state: ', state);
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_FAIL > action.result: ', action.result);
       return {
         ...state,
         error: true,
+        errorResponse: action.result,
         isLoading: false,
+        fetchedData: null,
       };
 
     default:
@@ -106,6 +114,7 @@ export function loadSuccess(fetchedData) {
 export function loadFailure(error) {
   return {
     type: LOAD_FAIL,
+    result: error
   }
 };
 

@@ -17,6 +17,10 @@ export default {
     loaded: false,
     dropDownOptionSelected: '',
     error: false,
+    errorResponse: {
+      message: '',
+      documentation_url: '',
+    },
     isLoading: false,
     fetchedData: null,
     didInvalidate: false,

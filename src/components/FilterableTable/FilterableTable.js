@@ -9,7 +9,7 @@ import DropdownSelect from '../DropdownSelect/DropdownSelect';
 // actionCreators
 import * as filterableTableActions from '../../redux/modules/filterableTable';
 // import { selectedOption } from '../../redux/modules/filterableTable';
-import { getResult, enumerateObjectValues1 } from '../../utils/enumerateObjectValues';
+import enumerateObjectValues from '../../utils/enumerateObjectValues';
 
 // <FilterableTable optionsArray={dropDownOptions} description='Filterable Product Table 1' />
 // <FilterableTable optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
@@ -20,6 +20,7 @@ import { getResult, enumerateObjectValues1 } from '../../utils/enumerateObjectVa
   (state, { as }) => ({
     dropDownOptionSelected: state.filterableTableCollection[as].dropDownOptionSelected,
     error: state.filterableTableCollection[as].error,
+    errorResponse: state.filterableTableCollection[as].errorResponse,
     isLoading: state.filterableTableCollection[as].isLoading,
     fetchedData: state.filterableTableCollection[as].fetchedData,
     // optionsArray: state.filterableTableCollection[as].optionsArray,
@@ -36,6 +37,7 @@ class FilterableTable extends Component {
   static propTypes = {
     dropDownOptionSelected: PropTypes.string,
     error: PropTypes.bool,
+    errorResponse: PropTypes.object,
     isLoading: PropTypes.bool,
     // fetchedData: PropTypes. .isRequired,
     // optionsArray: PropTypes.array.isRequired,
@@ -77,17 +79,34 @@ class FilterableTable extends Component {
   componentDidMount() {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() > props.description: ', this.props.description);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() > this.props.dropDownOptionSelected: ', this.props.dropDownOptionSelected);
+    // this._loadAsyncData(this.props.id);
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { error, isLoading, fetchedData, dropDownOptionSelected, load } = this.props;
+    // if (this.state.externalData === null) {
+    //   this._loadAsyncData(this.props.id);
+    // }
+    const { error, errorResponse, isLoading, fetchedData, dropDownOptionSelected, load } = this.props;
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() <<<<<<<<<<<<<<: ', this.props.description);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > this.props.dropDownOptionSelected: ', dropDownOptionSelected);
     if (fetchedData === null && !error && isLoading) {
-      load({
-        request: dropDownOptionSelected
-      });
+      load({ request: dropDownOptionSelected });
     }
+    // loading LOAD_FAIL
+    if (error && !isLoading) {
+      console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_FAIL: ', errorResponse.message);
+    }
+    // loading LOAD_SUCCESS
+    if (!error && !isLoading && fetchedData !== null) {
+      console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues');
+      return enumerateObjectValues(fetchedData)
+        .then(response => {
+          console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues > returned: ', response);
+        })
+        .catch(error => {
+          console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues > ERROR: ');
+        })
+    } 
   };
 
   componentWillUnmount() {
@@ -108,194 +127,6 @@ class FilterableTable extends Component {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidCatch() > info.componentStack: ', info.componentStack);
   };
 
-  // ===================================================================================
-  // ===================================================================================
-  // ===================================================================================
-
-  enumerateObjectValues(obj, i, z) {
-
-    let isArray = obj instanceof Array;
-
-    if (i) {
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ', i);
-    }
-    if (z === 1) {
-      console.log('------------------------------------');
-    }
-
-    Object.keys(obj).forEach((prop, index) => {
-
-      // ---------------------------------------------
-
-      if (typeof(obj[prop]) === 'object') {
-
-        // ---------------------------------------------
-
-        if (!isArray) {
-
-          index === 1 ? console.log('------------------------------') : null;
-
-          if (obj[prop] !== null) {
-            console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
-          }
-
-          if (obj[prop] === null) {
-            console.log('======= NULL =============: ', prop + ': ' + obj[prop]);
-          }
-        }
-
-        // ---------------------------------------------
-
-        if (obj[prop] !== null && isArray) {
-
-          console.log('>>>>>>>>>>>>>>>>>>>>>>> REAL ARRAY! <<<<<<<<<<<<<<<<<<<<<<');
-          this.enumerateObjectValues(obj[prop], index, undefined);
-
-        } else if (obj[prop] !== null) {
-
-          this.enumerateObjectValues(obj[prop], undefined, index);
-
-        }
-
-      // ---------------------------------------------
-
-      } else if (!isArray) {
-
-        console.log('======= NON-OBJECT =======: ', index, ' :: ', prop + ': ' + obj[prop]);
-
-        if (z === 1 && index === 1) {
-          console.log('------------------------------------');
-        }
-
-      }
-    })
-  };
-
-  // ===================================================================================
-  // ===================================================================================
-  // ===================================================================================
-
-  // node is basically a collection of callbacks that are executed in reaction to various events
-  // a single main thread (event loop) that executes the callbacks
-  // https://nodejs.org/api/all.html#process_process_nexttick_callback_args
-  // https://nodejs.org/en/docs/guides/blocking-vs-non-blocking/
-  // https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/
-  // avoid blocking for very large loops
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Polyfill
-  // 'Array.forEach' blocking
-
-  // going over JSON and enumeration
-  // also going over Promises/Async-Await
-  // when/if to handle thread non-blocking when enumerating?
-  // nail down a basic/recursive enumerator to (possibly) handle all JSON structures
-  // could result in a default go-to JSON parser/enumerator
-
-  setTimeoutPromise = (delay) => new Promise(resolve => setTimeout(resolve, delay))
-
-  setTimeoutPromise(delay) {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(), delay);
-    });
-  }
-
-  setImmediatePromise() {
-    return new Promise((resolve) => {
-      setImmediate(() => resolve());
-    });
-  }
-
-  nextTickPromise() {
-    return new Promise((resolve) => {
-      process.nextTick(() => resolve());
-    });
-  }
-
-  asyncForEach = async(array, cb) => {
-    for (let i = 0; i < array.length; i++) {
-      await cb(array[i], i, array)
-    }
-  }
-
-  async enumerateObjectValuesAsync(obj, i, z) {
-    let isArray = obj instanceof Array;
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& obj: ', obj);
-
-    if (i) {
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ', i);
-    }
-    if (z === 1) {
-      console.log('------------------------------------');
-    }
-
-    let keys = Object.keys(obj);
-    //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. Object.keys(obj)!!!!: ', keys);
-    
-    // await this.asyncForEach(obj, async (prop, index, a) => {
-    await this.asyncForEach(keys, async (prop, index, a) => {
-      // ------------------------------------
-      // await this.setTimeoutPromise(0);
-      // await this.setImmediatePromise();
-      await this.nextTickPromise();
-      // ------------------------------------
-
-      // console.log('################### 000000 ################### index: ', index);
-      // console.log('################### 000000 ################### obj[prop]: ', obj[prop]);
-      // console.log('################### 000000 ################### isArray: ', isArray);
-      // console.log('################### 000000 ################### prop: ', prop);
-
-      if (typeof(obj[prop]) === 'object') {
-
-        // found an object "{}"
-        console.log('------------------- 00000000 -----------------: ', obj[prop]);
-
-        if (isArray) {
-          // found an object "{}" and an instanceof Array and NULL or not
-          console.log('------------------- 00000000 YA -----------------: ', obj[prop], ' :: ', obj[prop].length);
-        } else {
-          // console.log('------------------- 00000000 NA -----------------: ', obj[prop]);
-          index === 1 ? console.log('----------------XXXXXXXXXXXXXXXXXXXXXXXXXXXX--------------') : null;
-        }
-
-        if (!isArray) {
-
-          // index === 1 ? console.log('------------------------------') : null;
-
-          if (obj[prop] !== null) {
-            console.log('################### OBJECT ###################: ', index, ' :: ', prop + ':');
-          }
-
-          if (obj[prop] === null) {
-            console.log('======= NULL =============: ', prop + ': ' + obj[prop]);
-          }
-        }
-
-        if (obj[prop] !== null) {
-
-          console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv00000 <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
-
-          if (isArray) {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv11111 YA <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop], ' :: ', obj[prop].length);
-            this.enumerateObjectValues(obj[prop], index, undefined);
-
-          } else {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>> vvvv2222  <<<<<<<<<<<<<<<<<<<<<<: ', obj[prop]);
-            this.enumerateObjectValues(obj[prop], undefined, index);
-          }
-        }
-
-      } else if (!isArray) {
-
-        console.log('======= NON-OBJECT =======: ', index, ' :: ', prop + ': ' + obj[prop]);
-
-        if (z === 1 && index === 1) {
-          console.log('------------------------------------');
-        }
-
-      }
-    })
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Done !')
-  };
-
   // ============================================
   // ============================================
   // ============================================
@@ -304,66 +135,22 @@ class FilterableTable extends Component {
 
     const styles = require('./scss/FilterableTable.scss');
 
-    const { error, isLoading, dropDownOptionSelected, fetchedData } = this.props;
+    const { error, errorResponse, isLoading, dropDownOptionSelected, fetchedData } = this.props;
     const { optionsArray, description, filterText, inStockOnly } = this.props;
 
     const loadingText = 'Fetching Requested Data ...';
-    const errorText = 'Error Fetching Requested Data !';
-    let items = null;
-
-    let enumeratedObject = [];
-
-    // let arrayLike = fetchedData && fetchedData.length > 0
-    //   ? arrayLike = true
-    //   : arrayLike = null;
-
-    // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData > ARRAYLIKE ??? ', arrayLike, '!');
-
-    if (fetchedData) {
-      this.enumerateObjectValuesAsync(fetchedData);
-      // this.enumerateObjectValues(fetchedData);
-      // return (
-      //   <div>{`${dropDownOptionSelected}`}</div>
-      // )
-    }
-
-    if (fetchedData && (dropDownOptionSelected.indexOf('https') === 0 || dropDownOptionSelected.indexOf('http') === 0)) {
-
-      if (arrayLike) {
-
-        items = Array.from(fetchedData).map((item, index) => {
-
-          let fromItem = item;
-          let fromIndex = index;
-          let ok = Object.keys(fromItem).map((item, index) => {
-            return <div key={index}>{`${fromIndex}: ${item}: ${fromItem[item]}`}</div>
-          })
-
-          return (
-            <div key={fromIndex}>
-              {ok}
-
-              {fromIndex !== fetchedData.length-1 && (
-                <div>---------</div>
-              )}
-            </div>
-          )
-        });
-
-      } else {
-
-        items = Object.keys(fetchedData).map((item, index) => {
-          console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.keys(): index: ', index, ' item: ', item,' fetchedData[item]: ', fetchedData[item]);
-          return <div key={index}>{`${index}: ${item}: ${fetchedData[item]}`}</div>;
-        });
-      }
-    }
+    // const errorText = {`${errorResponse.message} /\n ${errorResponse.message}`};
 
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > isLoading: ', isLoading);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > dropDownOptionSelected: ', dropDownOptionSelected);
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > items:::::::::::::::::: ', items);
     // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.entries()::::::: ', Object.entries(fetchedData));
+
+    if (fetchedData) {
+      return (
+        <div>{`${dropDownOptionSelected}`}</div>
+      )
+    }
 
     // ------------------------------------------------------------------------------------
 
@@ -416,7 +203,11 @@ class FilterableTable extends Component {
               <div className={`container-padding-border-radius-2`}>
                 <div className="container-padding-border-radius-1">
 
-                  <div className="alert alert-danger text-center" role="alert">{ errorText }</div>
+                  <div className="alert alert-danger text-center" role="alert">
+                    <div>{errorResponse.documentation_url}</div>
+                    <div>------------</div>
+                    <div>{errorResponse.message}</div>
+                  </div>
 
                 </div>
               </div>

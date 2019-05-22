@@ -154,7 +154,7 @@ class App extends Component {
 
                 <li className="nav-item">
                   <a className="nav-link font-norwester" href="#">
-                    <span className={`fas fa-fw fa-headphones ${styles.colorGoldLocal}`}></span><span className={styles.testColorFont}>Headphones!</span></a>
+                    <span className={`fas fa-fw fa-headphones /\n${styles.colorGoldLocal}`}></span><span className={styles.testColorFont}>Headphones!</span></a>
                 </li>
 
                 <li className="nav-item dropdown">

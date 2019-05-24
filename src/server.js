@@ -173,81 +173,58 @@ export default ({ clientStats }) => async (req, res) => {
       </Provider>
     );
 
-    const content = ReactDOM.renderToString(component);
+    store.runSaga(rootSaga).toPromise().then(() => {
 
-    // ------------------------------------------------------------------------------------------------------
+      const content = ReactDOM.renderToString(component);
 
-    const assets = flushChunks(clientStats, { chunkNames: flushChunkNames() });
+      const state = store.getState();
+      const stateJson = JSON.stringify(state);
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > JS: ', assets.Js);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > STYLES: ', assets.Styles);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > CSS: ', assets.Css);
+      const assets = flushChunks(clientStats, { chunkNames: flushChunkNames() });
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > .js: ', assets.js);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > styles: ', assets.styles);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > .css: ', assets.css);
+      // ------------------------------------
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > scripts: ', assets.scripts);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > stylesheets: ', assets.stylesheets);
+      function hydrate() {
+        res.write('<!doctype html>');
+        ReactDOM.renderToNodeStream(<Html assets={assets} store={store} />).pipe(res);
+      }
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > cssHashRaw: ', assets.cssHashRaw);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > cssHash: ', assets.cssHash);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > CssHash: ', assets.CssHash);
+      if (__DISABLE_SSR__) {
+        return hydrate();
+      }
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > publicPath: ', assets.publicPath);
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > outputPath: ', assets.outputPath);
+      // ------------------------------------
 
-    // ===============================================================================
-    // ===============================================================================
+      if (context.url) {
+        return res.redirect(301, context.url);
+      }
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > REQ.url ++++++++++++++++++: ', req.url);
+      const locationState = store.getState().router.location;
 
-    // It offers 2 functions flushChunks and flushFiles, which you call immediately after ReactDOMServer.renderToString. 
-    // They are used in server-rendering to extract the minimal amount of chunks to send to the client, 
-    // thereby solving a missing piece for code-splitting: server-side rendering.
+      if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(locationState.pathname + locationState.search)) {
+        return res.redirect(301, locationState.pathname);
+      }
 
-    // console.log('>>>>>>>>>>>>>>>>> SERVER > __DISABLE_SSR__:', __DISABLE_SSR__);
+      // ------------------------------------------------------------------------------------------------------
 
-    function hydrate() {
-      res.write('<!doctype html>');
-      ReactDOM.renderToNodeStream(<Html assets={assets} store={store} />).pipe(res);
-    }
+      // console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== content: ', content);
+      // console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== STORE!!: ', store);
 
-    if (__DISABLE_SSR__) {
-      return hydrate();
-    }
+      const html = <Html assets={assets} store={store} content={content} />;
+      const ssrHtml = `<!doctype html>${ReactDOM.renderToString(html)}`;
 
-    // ===============================================================================
-    // ===============================================================================
+      // console.log('>>>>>>>>>>>>>>>> SERVER > APP LOADER > RESPOND TO CLIENT !! > renderToString(html):', ssrHtml);
 
-    // console.log('>>>>>>>>>>>>>>>> SERVER > APP LOADER > context: ', context);
+      res.status(200).send(ssrHtml);
+      // res.status(200).send('SERVER > Response Ended For Testing!!!!!!! Status 200!!!!!!!!!');
 
-    if (context.url) {
-      return res.redirect(301, context.url);
-    }
+    });
 
-    const locationState = store.getState().router.location;
-
-    if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(locationState.pathname + locationState.search)) {
-      return res.redirect(301, locationState.pathname);
-    }
-
-    // ------------------------------------------------------------------------------------------------------
-
-    // console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== content: ', content);
-    // console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== STORE!!: ', store);
-
-    const html = <Html assets={assets} store={store} content={content} />;
-    const ssrHtml = `<!doctype html>${ReactDOM.renderToString(html)}`;
-
-    // console.log('>>>>>>>>>>>>>>>> SERVER > APP LOADER > RESPOND TO CLIENT !! > renderToString(html):', ssrHtml);
-
-    res.status(200).send(ssrHtml);
-    // res.status(200).send('SERVER > Response Ended For Testing!!!!!!! Status 200!!!!!!!!!');
+    store.close();
 
   } catch (error) {
     console.log('>>>>>>>>>>>>>>>> SERVER > APP LOADER > TRY > ERROR > error: ', error);
     res.status(500);
-    hydrate();
+    // hydrate(); // todo
   }
 };

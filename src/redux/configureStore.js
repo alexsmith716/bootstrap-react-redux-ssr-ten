@@ -12,9 +12,10 @@ import createRootReducer from './reducers';
 // ----------------------------------------------------------------------
 // utilize generator pattern and make code behave synchronously
 
-const middleware = [thunk];
+// const middleware = [thunk];
 // const middleware = createSagaMiddleware({ sagaMonitor })
-// const middleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
+const middleware = [sagaMiddleware];
 
 // state shape
 function combine(reducers) {
@@ -78,6 +79,9 @@ const configureStore = ({history, preloadedState}) => {
   }
 
   // ----------------------------------------------------------------------
+
+  store.runSaga = sagaMiddleware.run;
+  store.close = () => store.dispatch(END);
 
   return store;
 };

@@ -23,6 +23,7 @@ import routes from './routes';
 import {createBrowserHistory} from 'history';
 
 import configureStore from './redux/configureStore';
+import rootSaga from './redux/sagas';
 
 import './js/app';
 
@@ -48,6 +49,7 @@ const dest = document.getElementById('content');
   const history = createBrowserHistory();
 
   const store = configureStore({history, preloadedState});
+  store.runSaga(rootSaga);
 
   //console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > history: ', history);
 

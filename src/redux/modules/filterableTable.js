@@ -26,15 +26,6 @@ import axios from 'axios';
 
 import initialState from '../initial-state';
 
-// filterableTable: {
-//   loaded: false,
-//   dropDownOptionSelected: '',
-//   error: false,
-//   isLoading: false,
-//   fetchedData: null,
-//   didInvalidate: false,
-// },
-
 // Reducer
 // -------------------
 export default function reducer(state = initialState.filterableTable, action = {}) {
@@ -89,7 +80,11 @@ export default function reducer(state = initialState.filterableTable, action = {
   }
 }
 
-// Action Creators
+// Action Creators >
+// (create objects that are 'dispatched' to the store)
+// (the store invokes reducers)
+// (reducers generate new state)
+// (listeners are notified of state updates)
 // -------------------
 export function selectedOption(value) {
   return {

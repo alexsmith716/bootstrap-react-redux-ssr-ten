@@ -79,7 +79,6 @@ class FilterableTable extends Component {
   componentDidMount() {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() > props.description: ', this.props.description);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidMount() > this.props.dropDownOptionSelected: ', this.props.dropDownOptionSelected);
-    // this._loadAsyncData(this.props.id);
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -92,11 +91,11 @@ class FilterableTable extends Component {
     if (fetchedData === null && !error && isLoading) {
       load({ request: dropDownOptionSelected });
     }
-    // loading LOAD_FAIL
+    // LOAD_FAIL
     if (error && !isLoading) {
       console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_FAIL: ', errorResponse.message);
     }
-    // loading LOAD_SUCCESS
+    // LOAD_SUCCESS
     if (!error && !isLoading && fetchedData !== null) {
       console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues');
       return enumerateObjectValues(fetchedData)

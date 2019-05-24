@@ -1,4 +1,8 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+
+import createSagaMiddleware, { END } from 'redux-saga';
+// import sagaMonitor from '@redux-saga/simple-saga-monitor';
+
 import thunk from 'redux-thunk';
 import { reduxBatch } from '@manaflair/redux-batch';
 import createRootReducer from './reducers';
@@ -6,8 +10,11 @@ import createRootReducer from './reducers';
 // import events from './events';
 
 // ----------------------------------------------------------------------
+// utilize generator pattern and make code behave synchronously
 
 const middleware = [thunk];
+// const middleware = createSagaMiddleware({ sagaMonitor })
+// const middleware = createSagaMiddleware();
 
 // state shape
 function combine(reducers) {

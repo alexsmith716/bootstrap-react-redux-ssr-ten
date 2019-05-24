@@ -44,6 +44,7 @@ import ReactDOM from 'react-dom/server';
 
 // ----------------------------------
 import configureStore from './redux/configureStore';
+import rootSaga from './redux/sagas';
 
 import initialStatePreloaded from './redux/initial-preloaded-state';
 // ----------------------------------
@@ -52,7 +53,7 @@ import initialStatePreloaded from './redux/initial-preloaded-state';
 import { isDesktop, isMobile, isBot } from './utils/device';
 // ----------------------------------
 
-import {createMemoryHistory} from 'history';
+import { createMemoryHistory } from 'history';
 
 import routes from './routes';
 

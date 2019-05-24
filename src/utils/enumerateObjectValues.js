@@ -26,7 +26,8 @@ const asyncForEach = async(array, cb) => {
   }
 }
 
-// enumerating objects >>> a potentially long-running task
+// >>> long-running task: 
+// >>>>> HTTP request, database manipulation, animation, interprocess communication
 // async always returns a promise, which can be resolved to a value
 // await suspends the execution until the promise is settled
 const enumerateObjectValues = async (obj, i, z) => {

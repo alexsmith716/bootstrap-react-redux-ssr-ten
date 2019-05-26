@@ -5,7 +5,7 @@ import createSagaMiddleware, { END } from 'redux-saga';
 
 import thunk from 'redux-thunk';
 import { reduxBatch } from '@manaflair/redux-batch';
-import createRootReducer from './reducers';
+import rootReducer from './reducers';
 // import notify from 'redux-notify';
 // import events from './events';
 
@@ -59,7 +59,7 @@ const configureStore = ({history, preloadedState}) => {
   // ----------------------------------------------------------------------
 
   const store = createStore(
-    combine(createRootReducer(history)),
+    combine(rootReducer(history)),
     preloadedState,
     // reduxBatch,
     finalEnhancer
@@ -80,7 +80,14 @@ const configureStore = ({history, preloadedState}) => {
 
   // ----------------------------------------------------------------------
 
+  // 'enhance' the Store with method `runSaga`
+  // (use the method to start the root Saga of the application)
   store.runSaga = sagaMiddleware.run;
+  // special action `END`
+  // If you dispatch the END action, 
+  //   then all Sagas blocked on a take Effect will be terminated regardless of the specified pattern. 
+  // If the terminated Saga has still some forked tasks which are still running, 
+  //   it will wait for all the child tasks to terminate before terminating the Task
   store.close = () => store.dispatch(END);
 
   return store;

@@ -37,9 +37,5 @@ export default function rootReducer(history) {
       AboutTwo1: temperatureCalculator,
       AboutTwo2: temperatureCalculator,
     }),
-    // // auth,
-    // notifs,
-    // info,
-    // online,
   };
 }

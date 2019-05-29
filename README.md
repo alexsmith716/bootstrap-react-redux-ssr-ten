@@ -7,6 +7,110 @@ App builds off 'bootstrap-react-redux-webpack-ssr-nine'.
 =============================================================
 =============================================================
 
+Redux > Data Flow
+https://redux.js.org/basics/data-flow
+
+* Redux architecture revolves around a strict unidirectional data flow
+
+* This means that all data in an application follows the same lifecycle pattern
+
+
+The data lifecycle in any Redux app follows these 4 steps:
+
+  1. You call `store.dispatch(action)`
+  
+  2. The Redux store calls the reducer function you gave it
+  
+  3. The root reducer may combine the output of multiple reducers into a single state tree
+  
+  4. The Redux store saves the complete state tree returned by the root reducer
+
+
+* The new tree is now the next state of the app
+
+* Every listener registered with `store.subscribe(listener)` will now be invoked; 
+  listeners may call `store.getState()` to get the current state.
+
+* Now, the UI can be updated to reflect the new state. 
+  If using bindings like React Redux, this is the point at which `component.setState(newState)` is called.
+
+
+=============================================================
+=============================================================
+
+Redux Saga vs Async/Await
+--------------------------------------------
+
+https://thecodebarbarian.com/redux-saga-vs-async-await
+https://thecodebarbarian.com/the-difference-between-async-await-and-generators
+
+https://github.com/tj/co
+
+https://thecodebarbarian.com/for-vs-for-each-vs-for-in-vs-for-of-in-javascript
+https://thecodebarbarian.com/introducing-await-js-express-async-support-for-express-apps
+http://thecodebarbarian.com/common-async-await-design-patterns-in-node.js.html
+https://thecodebarbarian.com/the-80-20-guide-to-promises-in-node-js.html
+
+=============================================================
+=============================================================
+
+Task (Redux-Saga):
+-------------------------------------------------------------
+A task is like a process running in background. 
+In a redux-saga based application there can be multiple tasks running in parallel. 
+You create tasks by using the fork function:
+
+`import {fork} from 'redux-saga/effects'`
+
+`function* saga() {
+  ...
+  const task = yield fork(otherSaga, ...args)
+  ...
+}`
+
+=============================================================
+=============================================================
+
+A generator function is PAUSED by executing a `yield` keyword in the body of the function
+
+A yield keyword can be used any number of times in the function body
+
+=============================================================
+=============================================================
+
+A Generator executes just like any other function and you can pass arguments in it. 
+The only difference being that executing a generator doesn't really run the code inside it. 
+It simply produces an iterator that can be used to execute the code inside it.
+
+
+`function *generator() {
+    yield 'Hello';
+    yield 'from';
+    yield 'generator';
+}`
+
+
+Now if we call the generator function, 
+  it will not be executed; instead it returns an iterator that will be used to execute the code inside it.
+
+
+`let obj = generator();`
+
+
+In the generator above, 
+  the operations in the beginning would run and then the yield statement would pause the execution of the generator 
+  until the `next()` method is called. 
+The method `obj.next()` continues the execution of `generator`, until the next yield expression:
+
+
+`console.log( obj.next() );   // { value: 'Hello', done: false}
+console.log( obj.next() );    // { value: 'from', done: false}
+console.log( obj.next() );    // { value: 'generator', done: false}
+console.log( obj.next() );    // { value: undefined, done: true}`
+
+=============================================================
+=============================================================
+
 Generators & Promises >>> How Babel transforms async code to ES2016 code <<<
 
 Redux-Saga utilizes Generators to Asychonously control Redux (application side effects)
